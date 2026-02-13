@@ -5,6 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Valentine 🤍</title>
 <style>
+<script>
+for(let i=0;i<15;i++){
+  let h=document.createElement('div');
+  h.innerHTML='❤';
+  h.style.position='fixed';
+  h.style.left=Math.random()*100+'vw';
+  h.style.top=Math.random()*100+'vh';
+  h.style.fontSize=(10+Math.random()*20)+'px';
+  h.style.opacity=Math.random();
+  h.style.animation=`float ${5+Math.random()*5}s linear infinite`;
+  document.body.appendChild(h);
+}
+
+const style=document.createElement('style');
+style.innerHTML=`
+@keyframes float{
+  0%{transform:translateY(0)}
+  100%{transform:translateY(-120vh)}
+}`;
+document.head.appendChild(style);
+</script>
 body{
   margin:0;
   font-family: Arial, sans-serif;
