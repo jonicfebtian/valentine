@@ -3,85 +3,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Valentine 🤍</title>
+<title>Cosmic Love</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
+}
 
 body{
-  margin:0;
-  min-height:100vh;
-  font-family:'Inter',system-ui,sans-serif;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:radial-gradient(circle at top,#060b22,#02030d);
-  overflow:hidden;
+  background:radial-gradient(circle at top,#1a0033,#05000d 80%);
   color:white;
+  overflow:hidden;
 }
 
-/* nebula background */
-.bg{
-  position:fixed;
-  inset:-60%;
-  background:
-    radial-gradient(circle at 20% 30%,rgba(255,120,200,.22),transparent 45%),
-    radial-gradient(circle at 80% 40%,rgba(120,170,255,.22),transparent 50%),
-    radial-gradient(circle at 50% 70%,rgba(255,200,120,.18),transparent 45%);
-  filter:blur(150px);
-  animation:nebula 28s ease-in-out infinite alternate;
-}
-@keyframes nebula{
-  0%{transform:translate(0,0)}
-  100%{transform:translate(-140px,-180px)}
-}
-
-/* stars canvas */
 canvas{
   position:fixed;
-  inset:0;
-  z-index:1;
-  pointer-events:none;
+  top:0;
+  left:0;
+  z-index:0;
+}
+
+.wrapper{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:2;
+  position:relative;
 }
 
 .card{
-  position:relative;
-  z-index:2;
-  background:rgba(255,255,255,.09);
-  backdrop-filter:blur(20px);
-  border-radius:28px;
-  padding:26px 22px;
-  max-width:430px;
-  width:90%;
+  background:rgba(255,255,255,.06);
+  backdrop-filter:blur(18px);
+  border-radius:25px;
+  padding:28px 26px;
+  max-width:380px;
+  width:100%;
   text-align:center;
-  box-shadow:0 0 70px rgba(140,170,255,.35),0 0 140px rgba(255,120,200,.25);
-  animation:fade 1s ease;
+  box-shadow:0 0 60px rgba(170,120,255,.25);
+  animation:fadeUp 1.2s ease;
+  overflow-y:auto;
+  max-height:90vh;
 }
 
-.card:before{
-  content:"";
-  position:absolute;
-  inset:-1px;
-  border-radius:28px;
-  background:linear-gradient(135deg,rgba(255,120,200,.6),rgba(120,170,255,.6),rgba(255,200,120,.6));
-  filter:blur(18px);
-  opacity:.45;
-  z-index:-1;
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
 h1{
   font-family:'Playfair Display',serif;
-  color:#ffd6f0;
-  margin:0 0 10px;
-  font-size:26px;
+  font-weight:600;
+  letter-spacing:1px;
+  margin-bottom:12px;
 }
 
 p{
+  line-height:1.7;
   font-size:15px;
-  line-height:1.8;
-  color:#f2f4ff;
+  opacity:.9;
 }
 
 button{
@@ -89,172 +75,150 @@ button{
   padding:12px 28px;
   border:none;
   border-radius:30px;
-  background:linear-gradient(135deg,#ff5fa2,#7aa2ff);
-  color:white;
-  font-size:14px;
+  background:linear-gradient(135deg,#ff9dd5,#b47cff,#6f9cff);
+  color:#fff;
+  font-weight:600;
+  font-size:15px;
   cursor:pointer;
-  box-shadow:0 10px 25px rgba(120,150,255,.5);
+  box-shadow:0 0 25px rgba(180,120,255,.45);
+  transition:.35s;
 }
-button:active{transform:scale(.96)}
+
+button:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 45px rgba(200,140,255,.7);
+}
+
 .hide{display:none}
 
-@keyframes fade{
-  from{opacity:0;transform:translateY(18px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-/* video FULL FIX */
 .video-box{
-  position:relative;
-  width:100%;
-  height:200px;
-  margin:12px 0;
+  margin:16px 0;
   border-radius:18px;
   overflow:hidden;
-  box-shadow:0 0 45px rgba(140,170,255,.55);
+  box-shadow:0 0 35px rgba(160,120,255,.35);
 }
+
 .video-box video{
-  position:absolute;
-  inset:0;
   width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:18px;
+  height:auto;
+  display:block;
+  object-fit:contain;
 }
 
-/* scroll message */
-.scroll{
-  max-height:260px;
-  overflow-y:auto;
-  padding-right:6px;
-}
-.scroll::-webkit-scrollbar{width:6px}
-.scroll::-webkit-scrollbar-thumb{
-  background:rgba(255,255,255,.25);
-  border-radius:10px;
-}
-
-/* floating hearts */
-.heart{
-  position:fixed;
-  bottom:-20px;
-  font-size:16px;
-  animation:float linear infinite;
-  opacity:.7;
-}
-@keyframes float{
-  to{transform:translateY(-110vh) translateX(60px)}
+#typing{
+  margin-top:14px;
+  font-size:15px;
+  line-height:1.75;
+  white-space:pre-line;
 }
 </style>
 </head>
 
 <body>
 
-<div class="bg"></div>
 <canvas id="lux"></canvas>
+
+<div class="wrapper">
 
 <div class="card" id="openCard">
   <h1>Hi Hana 🤍</h1>
-  <p>I made something small for you.<br>Hope it makes you smile ✨</p>
-  <button onclick="openMsg()">Open Message ✨</button>
+  <p>I made something small for you.<br>Hope it brings a little smile ✨</p>
+  <button onclick="openMsg()">Open Message</button>
 </div>
 
 <div class="card hide" id="msgCard">
+  <h1>Happy Valentine 🤍</h1>
+
   <div class="video-box">
-    <video autoplay muted loop playsinline>
+    <video autoplay loop muted playsinline>
       <source src="hana.mp4" type="video/mp4">
     </video>
   </div>
 
-  <h1>Happy Valentine 🤍</h1>
-  <div class="scroll">
-    <p id="typing"></p>
-  </div>
+  <p id="typing"></p>
 </div>
 
-<audio id="music" loop>
+<audio id="music" autoplay loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
+</div>
+
 <script>
-const text = `This is just a simple message,
-but I hope you keep it in mind.
-
-Thank you, because talking with you
-always makes my days feel lighter and happier.
-Sometimes I smile, sometimes I laugh,
-just by reading your messages 🤍
-
-Thank you for being here, even when we are far apart.
-I hope we can keep accompanying each other,
-slowly, at our own pace.
-
-May good things always find you,
-may everything become easier,
-and may we always support each other ✨
-
-Have a wonderful day, and stay strong with your studies 🤍
-Whatever you do, I'm always proud of you.
-
-— Jonic Febtian`;
-
 function openMsg(){
   document.getElementById("openCard").classList.add("hide");
   document.getElementById("msgCard").classList.remove("hide");
   document.getElementById("music").play();
-  typeText();
+  typeWriter();
 }
 
-/* typing */
+const text = `This is just a simple message,
+but I hope you’ll always remember it 🤍
+
+Thank you for every little conversation,
+for every random story, and every small moment.
+Somehow, they always make my days feel lighter.
+
+Sometimes I smile without realizing,
+sometimes I laugh for no reason,
+just because of a simple chat with you.
+
+Thank you for being here,
+even when we’re far apart.
+Let’s just take everything slowly, together 🤍
+
+I hope life treats you gently,
+your days stay kind,
+and your dreams slowly find their way.
+
+No matter what you do,
+I’m always proud of you ✨
+
+— Jonic Febtian`;
+
 let i=0;
-function typeText(){
+function typeWriter(){
   if(i<text.length){
-    document.getElementById("typing").innerHTML += text[i]==="\n"?"<br>":text[i];
+    document.getElementById("typing").innerHTML += text.charAt(i);
     i++;
-    setTimeout(typeText,18);
+    setTimeout(typeWriter,42);
   }
 }
 
-/* cosmic particles */
+// galaxy particles
 const c=document.getElementById("lux");
 const ctx=c.getContext("2d");
-function resize(){c.width=innerWidth;c.height=innerHeight}
-resize();onresize=resize;
+c.width=innerWidth;
+c.height=innerHeight;
 
-let p=[];
-for(let i=0;i<140;i++){
-  p.push({
+let stars=[];
+for(let i=0;i<130;i++){
+  stars.push({
     x:Math.random()*c.width,
     y:Math.random()*c.height,
-    r:Math.random()*1.5+0.5,
-    s:Math.random()*0.8+0.3,
-    o:Math.random()*0.7
-  });
+    r:Math.random()*1.6+.4,
+    s:Math.random()*0.3+.05
+  })
 }
+
 function draw(){
   ctx.clearRect(0,0,c.width,c.height);
-  for(let i of p){
+  for(let s of stars){
     ctx.beginPath();
-    ctx.fillStyle=`rgba(200,220,255,${i.o})`;
-    ctx.arc(i.x,i.y,i.r,0,Math.PI*2);
+    ctx.fillStyle="rgba(200,160,255,.7)";
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
     ctx.fill();
-    i.y-=i.s;
-    if(i.y<0){i.y=c.height;i.x=Math.random()*c.width;}
+    s.y-=s.s;
+    if(s.y<0){
+      s.y=c.height;
+      s.x=Math.random()*c.width;
+    }
   }
   requestAnimationFrame(draw);
 }
 draw();
 
-/* floating hearts */
-for(let i=0;i<16;i++){
-  let h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="🤍";
-  h.style.left=Math.random()*100+"vw";
-  h.style.animationDuration=(8+Math.random()*10)+"s";
-  h.style.fontSize=(14+Math.random()*16)+"px";
-  document.body.appendChild(h);
-}
+onresize=()=>{c.width=innerWidth;c.height=innerHeight;}
 </script>
 
 </body>
