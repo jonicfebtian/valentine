@@ -16,13 +16,13 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background: radial-gradient(circle at top,#10001f,#000);
+  background: radial-gradient(circle at top,#080016,#000);
   overflow:hidden;
   font-family:'Poppins',sans-serif;
   color:#fff;
 }
 
-/* GALAXY BACKGROUND */
+/* GALAXY */
 #galaxy{
   position:fixed;
   inset:0;
@@ -37,7 +37,7 @@ body{
 }
 
 @keyframes twinkle{
-  from{opacity:.25}
+  from{opacity:.2}
   to{opacity:.6}
 }
 
@@ -46,7 +46,7 @@ body{
   position:fixed;
   inset:0;
   background:linear-gradient(120deg,transparent,rgba(255,0,150,.12),transparent);
-  animation: aurora 8s linear infinite;
+  animation: aurora 10s linear infinite;
   z-index:1;
 }
 
@@ -62,7 +62,7 @@ body{
   height:2px;
   background:linear-gradient(90deg,#fff,transparent);
   animation: shoot 2s linear infinite;
-  opacity:.7;
+  opacity:.6;
 }
 
 @keyframes shoot{
@@ -86,7 +86,7 @@ body{
   border-radius:26px;
   padding:30px 24px;
   width:90%;
-  max-width:430px;
+  max-width:440px;
   text-align:center;
   box-shadow:0 0 60px rgba(255,105,180,.35);
   animation: fadeIn 1.6s ease;
@@ -123,9 +123,7 @@ button{
   transition:.35s;
 }
 
-button:hover{
-  transform:scale(1.08);
-}
+button:hover{transform:scale(1.08)}
 
 .hide{display:none}
 
@@ -158,17 +156,17 @@ video{
   background:#ff6fae;
   border-radius:10px;
 }
-
 </style>
 </head>
+
 <body>
 
 <div id="galaxy"></div>
 <div id="aurora"></div>
 
-<div class="meteor" style="top:10%;left:20%;animation-delay:0s"></div>
-<div class="meteor" style="top:30%;left:60%;animation-delay:1.3s"></div>
-<div class="meteor" style="top:50%;left:40%;animation-delay:2.2s"></div>
+<div class="meteor" style="top:15%;left:30%;animation-delay:0s"></div>
+<div class="meteor" style="top:45%;left:60%;animation-delay:1.6s"></div>
+<div class="meteor" style="top:65%;left:40%;animation-delay:2.9s"></div>
 
 <canvas id="lux"></canvas>
 
@@ -228,7 +226,7 @@ function typeText(){
   if(i<text.length){
     document.getElementById("typing").innerHTML += text.charAt(i).replace(/\n/g,"<br>");
     i++;
-    setTimeout(typeText,30);
+    setTimeout(typeText,28);
   }
 }
 
@@ -244,12 +242,12 @@ resize();
 onresize=resize;
 
 let p=[];
-for(let i=0;i<80;i++){
+for(let i=0;i<90;i++){
   p.push({
     x:Math.random()*c.width,
     y:Math.random()*c.height,
     r:Math.random()*2+1,
-    s:Math.random()*0.9+0.3
+    s:Math.random()*0.9+0.4
   });
 }
 
@@ -257,7 +255,7 @@ function draw(){
   ctx.clearRect(0,0,c.width,c.height);
   for(let i of p){
     ctx.beginPath();
-    ctx.fillStyle="rgba(255,160,220,.55)";
+    ctx.fillStyle="rgba(255,170,220,.6)";
     ctx.arc(i.x,i.y,i.r,0,Math.PI*2);
     ctx.fill();
     i.y-=i.s;
