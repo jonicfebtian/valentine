@@ -3,17 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Hana 🤍</title>
+<title>Cosmic Love</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Inter',sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
 
 body{
   background:radial-gradient(circle at top,#1a0033,#05000d 80%);
@@ -21,11 +16,7 @@ body{
   overflow:hidden;
 }
 
-canvas{
-  position:fixed;
-  inset:0;
-  z-index:0;
-}
+canvas{position:fixed;inset:0;z-index:0}
 
 .wrapper{
   min-height:100vh;
@@ -82,31 +73,41 @@ button{
   box-shadow:0 0 25px rgba(180,120,255,.45);
   transition:.35s;
 }
-
-button:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 45px rgba(200,140,255,.7);
-}
+button:hover{transform:scale(1.05)}
 
 .hide{display:none}
 
-/* VIDEO SIZE FIX */
+/* ===== VIDEO CINEMATIC ===== */
 .video-box{
   margin:14px 0 18px;
-  border-radius:16px;
+  border-radius:18px;
   overflow:hidden;
-  box-shadow:0 0 28px rgba(160,120,255,.35);
-  max-height:220px;
+  box-shadow:0 0 35px rgba(160,120,255,.35);
+  height:240px;
+  position:relative;
 }
 
+/* blurred ambient glow */
+.video-box::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:url('hana.mp4') center/cover no-repeat;
+  filter:blur(18px) brightness(.7);
+  transform:scale(1.2);
+  z-index:0;
+}
+
+/* main video */
 .video-box video{
   width:100%;
-  height:220px;
-  object-fit:contain;
-  display:block;
-  background:black;
+  height:100%;
+  object-fit:cover;
+  position:relative;
+  z-index:1;
 }
 
+/* typing */
 #typing{
   margin-top:12px;
   font-size:15px;
@@ -167,17 +168,20 @@ just because of a simple chat with you.
 
 Thank you for being here,
 even when we’re far apart.
-Let’s just take everything slowly, together 🤍
+Let's just take everything slowly, one step at a time.
 
 I hope life treats you gently,
 your days stay kind,
-and your dreams slowly find their way,
-especially keep motivated in your study.
+and your dreams slowly find their way.
+
+I hope college feels a little lighter too,
+that every late night, deadline, and tired moment
+always leads you closer to what you’re chasing.
 
 No matter what you do,
 I’m always proud of you ✨
 
-— Jonic Febtian`;
+— Your number one supporter`;
 
 let i=0;
 function typeWriter(){
@@ -191,13 +195,8 @@ function typeWriter(){
 /* galaxy particles */
 const c=document.getElementById("lux");
 const ctx=c.getContext("2d");
-
-function resize(){
-  c.width=innerWidth;
-  c.height=innerHeight;
-}
-resize();
-onresize=resize;
+function resize(){c.width=innerWidth;c.height=innerHeight}
+resize();onresize=resize;
 
 let stars=[];
 for(let i=0;i<140;i++){
@@ -206,7 +205,7 @@ for(let i=0;i<140;i++){
     y:Math.random()*c.height,
     r:Math.random()*1.5+.3,
     s:Math.random()*0.25+.05
-  });
+  })
 }
 
 function draw(){
