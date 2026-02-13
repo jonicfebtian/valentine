@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Valentine 🤍</title>
 <style>
+#lux{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+.card, .container{
+  position:relative;
+  z-index:2;
+}
 body{
   margin:0;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -57,6 +67,7 @@ button{
 </style>
 </head>
 <body>
+<canvas id="lux"></canvas>
 <div class="container" id="openCard">
     <h1>🤍 Hai Hana Grace 🤍</h1>
     <p>Ada pesan kecil buat kamu.<br>Semoga bikin senyum </p>
@@ -81,44 +92,49 @@ button{
 <audio id="music" autoplay loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
-<canvas id="lux"></canvas>
 <script>
 function openMsg(){
-    document.getElementById("openCard").classList.add("hide");
-    document.getElementById("msgCard").classList.remove("hide");
-    document.getElementById("music").play();
-}
-  
-const c = document.getElementById("lux");
-const ctx = c.getContext("2d");
-c.width = innerWidth;
-c.height = innerHeight;
-
-let p=[];
-for(let i=0;i<60;i++){
-  p.push({
-    x:Math.random()*c.width,
-    y:Math.random()*c.height,
-    r:Math.random()*2+1,
-    s:Math.random()*0.6+0.2
-  });
+  document.getElementById("openCard").classList.add("hide");
+  document.getElementById("msgCard").classList.remove("hide");
+  const m=document.getElementById("music");
+  if(m) m.play();
 }
 
-function draw(){
-  ctx.clearRect(0,0,c.width,c.height);
-  for(let i of p){
-    ctx.beginPath();
-    ctx.fillStyle="rgba(255,180,220,.5)";
-    ctx.arc(i.x,i.y,i.r,0,Math.PI*2);
-    ctx.fill();
-    i.y-=i.s;
-    if(i.y<0){i.y=c.height;i.x=Math.random()*c.width;}
+/* LIGHT PARTICLE BACKGROUND */
+const c=document.getElementById("lux");
+if(c){
+  const ctx=c.getContext("2d");
+  function resize(){
+    c.width=window.innerWidth;
+    c.height=window.innerHeight;
   }
-  requestAnimationFrame(draw);
-}
-draw();
+  resize();
+  window.onresize=resize;
 
-onresize=()=>{c.width=innerWidth;c.height=innerHeight}
+  let p=[];
+  for(let i=0;i<50;i++){
+    p.push({
+      x:Math.random()*c.width,
+      y:Math.random()*c.height,
+      r:Math.random()*2+1,
+      s:Math.random()*0.6+0.3
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    for(let i of p){
+      ctx.beginPath();
+      ctx.fillStyle="rgba(255,180,220,.45)";
+      ctx.arc(i.x,i.y,i.r,0,Math.PI*2);
+      ctx.fill();
+      i.y-=i.s;
+      if(i.y<0){i.y=c.height;i.x=Math.random()*c.width;}
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
 </script>
 </body>
 </html>
