@@ -56,9 +56,8 @@ body{
   box-shadow:0 25px 55px rgba(255,120,170,.35);
   animation:fadeIn 1.2s ease;
 }
-.card::-webkit-scrollbar{
-  width:6px;
-}
+
+.card::-webkit-scrollbar{width:6px}
 .card::-webkit-scrollbar-thumb{
   background:rgba(255,80,130,.35);
   border-radius:10px;
@@ -121,19 +120,26 @@ button:active{transform:scale(.97)}
   50%{transform:translateY(-8px)}
 }
 
-/* video */
+/* video - kecil tapi utuh */
 .vid-wrap{
-  margin:12px auto 12px;
-  border-radius:18px;
+  margin:12px auto 14px;
+  border-radius:16px;
   overflow:hidden;
-  box-shadow:0 10px 30px rgba(255,120,170,.35);
-  max-height:240px;
+  box-shadow:0 10px 26px rgba(255,120,170,.35);
+  max-width:260px;
+  background:#000;
 }
 .vid-wrap video{
   width:100%;
-  height:100%;
-  object-fit:cover;
+  height:auto;
   display:block;
+  object-fit:contain;
+  background:#000;
+}
+
+/* typing area fix shake */
+#typing{
+  min-height:240px;
 }
 
 /* falling petals */
