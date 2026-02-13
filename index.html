@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cosmic Love</title>
+<title>For Hana 🤍</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
@@ -23,8 +23,7 @@ body{
 
 canvas{
   position:fixed;
-  top:0;
-  left:0;
+  inset:0;
   z-index:0;
 }
 
@@ -34,22 +33,22 @@ canvas{
   align-items:center;
   justify-content:center;
   padding:20px;
-  z-index:2;
   position:relative;
+  z-index:2;
 }
 
 .card{
   background:rgba(255,255,255,.06);
   backdrop-filter:blur(18px);
-  border-radius:25px;
-  padding:28px 26px;
+  border-radius:26px;
+  padding:26px 24px;
   max-width:380px;
   width:100%;
   text-align:center;
   box-shadow:0 0 60px rgba(170,120,255,.25);
   animation:fadeUp 1.2s ease;
-  overflow-y:auto;
   max-height:90vh;
+  overflow-y:auto;
 }
 
 @keyframes fadeUp{
@@ -65,9 +64,9 @@ h1{
 }
 
 p{
-  line-height:1.7;
+  line-height:1.75;
   font-size:15px;
-  opacity:.9;
+  opacity:.95;
 }
 
 button{
@@ -91,22 +90,25 @@ button:hover{
 
 .hide{display:none}
 
+/* VIDEO SIZE FIX */
 .video-box{
-  margin:16px 0;
-  border-radius:18px;
+  margin:14px 0 18px;
+  border-radius:16px;
   overflow:hidden;
-  box-shadow:0 0 35px rgba(160,120,255,.35);
+  box-shadow:0 0 28px rgba(160,120,255,.35);
+  max-height:220px;
 }
 
 .video-box video{
   width:100%;
-  height:auto;
-  display:block;
+  height:220px;
   object-fit:contain;
+  display:block;
+  background:black;
 }
 
 #typing{
-  margin-top:14px;
+  margin-top:12px;
   font-size:15px;
   line-height:1.75;
   white-space:pre-line;
@@ -138,7 +140,7 @@ button:hover{
   <p id="typing"></p>
 </div>
 
-<audio id="music" autoplay loop>
+<audio id="music" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
@@ -169,7 +171,8 @@ Let’s just take everything slowly, together 🤍
 
 I hope life treats you gently,
 your days stay kind,
-and your dreams slowly find their way.
+and your dreams slowly find their way,
+especially keep motivated in your study.
 
 No matter what you do,
 I’m always proud of you ✨
@@ -181,31 +184,36 @@ function typeWriter(){
   if(i<text.length){
     document.getElementById("typing").innerHTML += text.charAt(i);
     i++;
-    setTimeout(typeWriter,42);
+    setTimeout(typeWriter,48);
   }
 }
 
-// galaxy particles
+/* galaxy particles */
 const c=document.getElementById("lux");
 const ctx=c.getContext("2d");
-c.width=innerWidth;
-c.height=innerHeight;
+
+function resize(){
+  c.width=innerWidth;
+  c.height=innerHeight;
+}
+resize();
+onresize=resize;
 
 let stars=[];
-for(let i=0;i<130;i++){
+for(let i=0;i<140;i++){
   stars.push({
     x:Math.random()*c.width,
     y:Math.random()*c.height,
-    r:Math.random()*1.6+.4,
-    s:Math.random()*0.3+.05
-  })
+    r:Math.random()*1.5+.3,
+    s:Math.random()*0.25+.05
+  });
 }
 
 function draw(){
   ctx.clearRect(0,0,c.width,c.height);
   for(let s of stars){
     ctx.beginPath();
-    ctx.fillStyle="rgba(200,160,255,.7)";
+    ctx.fillStyle="rgba(200,160,255,.65)";
     ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
     ctx.fill();
     s.y-=s.s;
@@ -217,8 +225,6 @@ function draw(){
   requestAnimationFrame(draw);
 }
 draw();
-
-onresize=()=>{c.width=innerWidth;c.height=innerHeight;}
 </script>
 
 </body>
