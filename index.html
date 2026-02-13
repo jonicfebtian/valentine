@@ -1,318 +1,248 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Primordial God Of Creation</title>
+<title>Happy Valentine 🤍</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif;}
+
 html,body{
-width:100%;
-height:100%;
-overflow:hidden;
-background:black;
-font-family:'Poppins',sans-serif;
+  height:100%;
+  background:#000;
+  overflow:hidden;
 }
 
-/* CINEMATIC INTRO */
-.intro{
-position:fixed;
-inset:0;
-background:black;
-z-index:9999;
-display:flex;
-align-items:center;
-justify-content:center;
-animation:introFade 5s ease forwards;
+/* Galaxy Background */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(255,170,220,.2), transparent 40%),
+    radial-gradient(circle at 80% 75%, rgba(140,180,255,.25), transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,.1), transparent 55%),
+    linear-gradient(180deg,#030014,#0a0030,#000);
+  animation: galaxy 40s linear infinite;
+  z-index:-3;
 }
 
-.intro h1{
-font-family:'Cinzel',serif;
-font-size:clamp(26px,5vw,58px);
-letter-spacing:10px;
-color:white;
-text-align:center;
-opacity:0;
-animation:introText 3.5s ease forwards;
+@keyframes galaxy{
+  0%{filter:hue-rotate(0deg);}
+  100%{filter:hue-rotate(360deg);}
 }
 
-@keyframes introFade{
-0%{opacity:1}
-70%{opacity:1}
-100%{opacity:0;visibility:hidden}
-}
-
-@keyframes introText{
-0%{opacity:0;transform:scale(.9)}
-40%{opacity:1}
-100%{opacity:0;transform:scale(1.15)}
-}
-
-/* VIDEO BG */
-.video-bg{
-position:fixed;
-inset:0;
-z-index:-20;
-}
-.video-bg video{
-width:100%;
-height:100%;
-object-fit:cover;
-filter:brightness(.42) contrast(1.25) saturate(1.15);
-}
-
-/* NEBULA LAYERS */
-.layer{
-position:fixed;
-inset:-35%;
-pointer-events:none;
-}
-.layer.one{
-background:
-radial-gradient(circle at 25% 30%,#7f2cff66,transparent 45%),
-radial-gradient(circle at 70% 75%,#00f0ff66,transparent 50%);
-z-index:-12;
-}
-.layer.two{
-background:
-radial-gradient(circle at 50% 25%,#ffffff14,transparent 45%),
-radial-gradient(circle at 30% 80%,#ff9cff22,transparent 50%);
-z-index:-11;
-}
-.layer.three{
-background:linear-gradient(120deg,#ff7aff18,#00e0ff18,#ffffff08);
-filter:blur(160px);
-z-index:-10;
-}
-
-/* AURORA */
-.aurora{
-position:fixed;
-inset:-40%;
-background:linear-gradient(120deg,#7f2cff33,#00d9ff22,#ff7aff22,#ffffff08);
-filter:blur(140px);
-animation:aurora 16s ease-in-out infinite alternate;
-z-index:-9;
-}
-@keyframes aurora{
-0%{transform:translate(-10%,0)}
-100%{transform:translate(10%,0)}
-}
-
-/* STAR CANVAS */
 canvas{
-position:fixed;
-inset:0;
-z-index:-8;
+  position:fixed;
+  inset:0;
+  z-index:-2;
 }
 
-/* PORTAL */
-.portal{
-position:fixed;
-width:720px;
-height:720px;
-border-radius:50%;
-background:radial-gradient(circle,#ffffff33,#7f2cff22,transparent 70%);
-filter:blur(45px);
-animation:portal 9s ease-in-out infinite;
-z-index:-7;
-}
-@keyframes portal{
-0%,100%{transform:scale(.88) rotate(0deg)}
-50%{transform:scale(1.08) rotate(180deg)}
-}
-
-/* CONTENT */
+/* Layout */
 .container{
-width:100%;
-height:100%;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
 }
 
+/* Card */
 .card{
-max-width:900px;
-padding:60px 48px;
-border-radius:38px;
-background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.015));
-backdrop-filter:blur(20px);
-box-shadow:
-0 0 160px rgba(255,255,255,.14),
-0 0 80px rgba(130,100,255,.35);
-animation:fade 3s ease;
-text-align:center;
+  max-width:760px;
+  width:100%;
+  padding:42px 36px;
+  border-radius:26px;
+  background:rgba(255,255,255,.07);
+  backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,.18);
+  text-align:center;
+  box-shadow:0 0 70px rgba(140,180,255,.35);
+  animation:fadeUp .9s ease;
 }
 
-h2{
-font-family:'Cinzel',serif;
-font-size:clamp(34px,5.6vw,74px);
-letter-spacing:9px;
-background:linear-gradient(90deg,#e4c6ff,#ffffff,#b4f2ff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-text-shadow:0 0 36px rgba(255,255,255,.5);
-margin-bottom:36px;
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(25px);}
+  to{opacity:1;transform:none;}
 }
 
-.typing{
-font-family:'Playfair Display',serif;
-font-size:clamp(18px,2.4vw,24px);
-line-height:2.1;
-letter-spacing:.7px;
-color:white;
-min-height:260px;
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:36px;
+  font-weight:700;
+  color:#fff;
+  margin-bottom:14px;
 }
 
-.cursor{
-display:inline-block;
-width:2px;
-height:1em;
-background:white;
-margin-left:6px;
-animation:blink 1s infinite;
+p{
+  color:#e8e8e8;
+  font-size:16px;
+  line-height:1.8;
 }
 
-@keyframes blink{
-0%,50%,100%{opacity:1}
-25%,75%{opacity:0}
+button{
+  margin-top:28px;
+  padding:12px 38px;
+  border:none;
+  border-radius:999px;
+  font-size:15px;
+  font-weight:600;
+  background:linear-gradient(135deg,#ff9acb,#90b6ff);
+  cursor:pointer;
+  transition:.35s;
 }
 
-@keyframes fade{
-from{opacity:0;transform:scale(.9)}
-to{opacity:1;transform:scale(1)}
+button:hover{
+  transform:scale(1.07);
+  box-shadow:0 0 28px rgba(255,170,220,.8);
 }
 
-/* METEOR */
-.meteor{
-position:fixed;
-width:220px;
-height:2px;
-background:linear-gradient(90deg,white,transparent);
-opacity:.9;
-animation:shoot 3.8s linear infinite;
+.hide{display:none}
+
+/* Video */
+video{
+  width:100%;
+  max-height:330px;
+  object-fit:contain;
+  border-radius:18px;
+  margin-bottom:20px;
+  box-shadow:0 0 45px rgba(140,180,255,.45);
 }
-@keyframes shoot{
-0%{transform:translate(-30vw,-30vh) rotate(45deg)}
-100%{transform:translate(120vw,120vh) rotate(45deg)}
+
+/* Typing */
+#typing{
+  min-height:240px;
+  white-space:pre-line;
+}
+
+/* Mobile */
+@media(max-width:480px){
+  h1{font-size:28px;}
+  p{font-size:14px;}
+  video{max-height:240px;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="intro">
-<h1>THE UNIVERSE IS LOADING</h1>
-</div>
-
-<div class="video-bg">
-<video autoplay muted loop playsinline>
-<source src="hana.mp4" type="video/mp4">
-</video>
-</div>
-
-<div class="layer one" id="l1"></div>
-<div class="layer two" id="l2"></div>
-<div class="layer three" id="l3"></div>
-<div class="aurora"></div>
-
 <canvas id="stars"></canvas>
 
 <div class="container">
-<div class="card">
-<h2>ETERNAL CONFESSION</h2>
-<div class="typing" id="typing"></div><span class="cursor"></span>
-</div>
+
+  <div class="card" id="openCard">
+    <h1>Hi Hana 🤍</h1>
+    <p>There is a small message for you.<br>Hope it makes you smile 😊</p>
+    <button onclick="openMsg()">Open Message ✨</button>
+  </div>
+
+  <div class="card hide" id="msgCard">
+    <video src="hana.mp4" autoplay loop muted playsinline></video>
+    <h1>Happy Valentine 🤍</h1>
+    <p id="typing"></p>
+  </div>
+
 </div>
 
-<div class="portal"></div>
-
-<div class="meteor" style="top:18%;left:-40%"></div>
-<div class="meteor" style="top:48%;left:-70%;animation-delay:1.5s"></div>
-<div class="meteor" style="top:78%;left:-90%;animation-delay:3s"></div>
+<audio id="music" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-/* MESSAGE */
-const text = `Di antara miliaran bintang,
-aku menemukan satu cahaya
-yang terasa berbeda — kamu.
+/* OPEN MESSAGE */
+function openMsg(){
+  document.getElementById("openCard").classList.add("hide");
+  document.getElementById("msgCard").classList.remove("hide");
 
-Bukan karena sempurna,
-tapi karena caramu hadir,
-selalu terasa tepat.
+  const music = document.getElementById("music");
+  music.volume = 0;
+  music.play().catch(()=>{});
+  fadeInMusic();
 
-Aku tidak ingin janji berlebihan.
-Aku hanya ingin berjalan,
-pelan-pelan,
-bersamamu.
+  typeText();
+}
 
-Jika suatu hari dunia terasa berat,
-aku ingin jadi tempatmu bersandar.
-Jika suatu hari kamu ragu,
-aku ingin jadi orang yang meyakinkan.
+/* SMOOTH FADE-IN MUSIC */
+function fadeInMusic(){
+  const music = document.getElementById("music");
+  let v = 0;
+  const fade = setInterval(()=>{
+    if(v < 1){
+      v += 0.02;
+      music.volume = v;
+    } else {
+      clearInterval(fade);
+    }
+  },60);
+}
 
+/* TYPING EFFECT */
+const text = `This is just a simple message,
+but I hope you will always remember it.
+
+Thank you, because talking with you
+always makes my day feel lighter and happier.
+Sometimes I smile, sometimes I laugh,
+just by reading your messages 😊
+
+Thank you for being here, even though we are far apart.
+Hopefully we can keep accompanying each other,
+slowly, one step at a time 🤍
+
+May we always be given good things,
+everything made easier,
+and always able to support each other ✨
+
+Hope you have a wonderful day and stay motivated in college 🤍
+Whatever you do, I'm always proud of you.
 — Jonic Febtian`;
 
 let i=0;
-const speed=38;
-const typing=document.getElementById("typing");
-
-function typeWriter(){
-if(i<text.length){
-typing.innerHTML+=text.charAt(i)==="\n"?"<br>":text.charAt(i);
-i++;
-setTimeout(typeWriter,speed);
+function typeText(){
+  if(i < text.length){
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeText,30);
+  }
 }
-}
-setTimeout(typeWriter,2500);
 
-/* STAR FIELD */
-const canvas=document.getElementById("stars");
-const ctx=canvas.getContext("2d");
-let w,h;
+/* STARS */
+const c = document.getElementById("stars");
+const ctx = c.getContext("2d");
+
 function resize(){
-w=canvas.width=innerWidth;
-h=canvas.height=innerHeight;
+  c.width = innerWidth;
+  c.height = innerHeight;
 }
-resize();onresize=resize;
+resize();
+window.onresize = resize;
 
 let stars=[];
-for(let i=0;i<320;i++){
-stars.push({
-x:Math.random()*w,
-y:Math.random()*h,
-r:Math.random()*1.8,
-v:Math.random()*0.8+.3
-});
+for(let i=0;i<160;i++){
+  stars.push({
+    x:Math.random()*c.width,
+    y:Math.random()*c.height,
+    r:Math.random()*1.5+0.3,
+    s:Math.random()*0.35+0.1
+  });
 }
 
-function animate(){
-ctx.clearRect(0,0,w,h);
-ctx.fillStyle="white";
-stars.forEach(s=>{
-ctx.beginPath();
-ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-ctx.fill();
-s.y+=s.v;
-if(s.y>h){s.y=0;s.x=Math.random()*w}
-});
-requestAnimationFrame(animate);
+function drawStars(){
+  ctx.clearRect(0,0,c.width,c.height);
+  for(let s of stars){
+    ctx.beginPath();
+    ctx.fillStyle="rgba(255,255,255,.85)";
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fill();
+    s.y += s.s;
+    if(s.y > c.height){ s.y = 0; s.x = Math.random()*c.width; }
+  }
+  requestAnimationFrame(drawStars);
 }
-animate();
-
-/* PARALLAX */
-document.addEventListener("mousemove",e=>{
-let x=(e.clientX/window.innerWidth-.5)*18;
-let y=(e.clientY/window.innerHeight-.5)*18;
-
-l1.style.transform=`translate(${x}px,${y}px)`;
-l2.style.transform=`translate(${x*1.8}px,${y*1.8}px)`;
-l3.style.transform=`translate(${x*2.6}px,${y*2.6}px)`;
-});
+drawStars();
 </script>
 
 </body>
