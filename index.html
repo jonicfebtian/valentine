@@ -5,49 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Valentine 🤍</title>
 <style>
-<script>
-for(let i=0;i<15;i++){
-  let h=document.createElement('div');
-  h.innerHTML='❤';
-  h.style.position='fixed';
-  h.style.left=Math.random()*100+'vw';
-  h.style.top=Math.random()*100+'vh';
-  h.style.fontSize=(10+Math.random()*20)+'px';
-  h.style.opacity=Math.random();
-  h.style.animation=`float ${5+Math.random()*5}s linear infinite`;
-  document.body.appendChild(h);
-}
-
-const style=document.createElement('style');
-style.innerHTML=`
-@keyframes float{
-  0%{transform:translateY(0)}
-  100%{transform:translateY(-120vh)}
-}`;
-document.head.appendChild(style);
-</script>
 body{
   margin:0;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:
-    linear-gradient(rgba(255,182,193,.55), rgba(255,105,180,.6)),
-    url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1200&q=80');
-  background-size:cover;
-  background-position:center;
-  background-attachment:fixed;
+  background: radial-gradient(circle at top, #1c0522, #000);
+  overflow:hidden;
+  color:#fff;
 }
 .container{
-    background:#ffffff;
-    width:90%;
-    max-width:420px;
-    padding:24px 20px;
-    border-radius:18px;
-    text-align:center;
-    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+  background:rgba(255,255,255,.06);
+  backdrop-filter: blur(12px);
+  border-radius:22px;
+  padding:28px 22px;
+  text-align:center;
+  max-width:420px;
+  width:90%;
+  box-shadow:0 0 40px rgba(255,105,180,.25);
+  animation:fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
 }
 h1{
     color:#ff4f7a;
