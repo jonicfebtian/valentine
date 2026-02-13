@@ -1,0 +1,85 @@
+02.14 00:34
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Valentine 🤍</title>
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#ffb6c1,#ffe4e1);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.container{
+    background:#ffffff;
+    width:90%;
+    max-width:420px;
+    padding:24px 20px;
+    border-radius:18px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+}
+h1{
+    color:#ff4f7a;
+    margin-bottom:12px;
+}
+p{
+    color:#444;
+    font-size:15px;
+    line-height:1.7;
+}
+button{
+    margin-top:15px;
+    padding:12px 20px;
+    border:none;
+    border-radius:25px;
+    background:#ff4f7a;
+    color:white;
+    font-size:15px;
+    cursor:pointer;
+}
+.hide{
+    display:none;
+}
+</style>
+</head>
+<body>
+<div class="container" id="openCard">
+    <h1>🤍 Hai Hana Grace 🤍</h1>
+    <p>Ada pesan kecil buat kamu.<br>Semoga bikin senyum </p>
+    <button onclick="openMsg()">Buka Pesan ✨</button>
+</div>
+<div class="container hide" id="msgCard">
+    <h1>Happy Valentine 🤍</h1>
+    <p>
+        Ini cuma pesan sederhana,<br>
+        tapi semoga bisa jadi pengingat kecil <br><br>
+        Terima kasih ya, karena obrolan sama kamu<br>
+        selalu bikin hari terasa lebih ringan dan seru.<br>
+        Kadang senyum sendiri, kadang ketawa,<br>
+        padahal cuma baca chat <br><br>
+        Semoga kita selalu dikasih hal-hal baik,<br>
+        urusan dimudahkan,<br>
+        dan tetap bisa saling nyemangatin satu sama lain ✨<br><br>
+        Semoga harimu menyenangkan ya ️<br>
+        — <b>Jonic Febtian</b>
+    </p>
+</div>
+<audio id="music">
+    <source src="https://cdn.pixabay.com/audio/2023/03/02/audio_1b0b4d7b62.mp3" type="audio/mpeg">
+</audio>
+<script>
+function openMsg(){
+    document.getElementById("openCard").classList.add("hide");
+    document.getElementById("msgCard").classList.remove("hide");
+    document.getElementById("music").play();
+}
+</script>
+</body>
+</html>
+
