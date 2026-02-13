@@ -81,12 +81,44 @@ button{
 <audio id="music" autoplay loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
+<canvas id="lux"></canvas>
 <script>
 function openMsg(){
     document.getElementById("openCard").classList.add("hide");
     document.getElementById("msgCard").classList.remove("hide");
     document.getElementById("music").play();
 }
+  
+const c = document.getElementById("lux");
+const ctx = c.getContext("2d");
+c.width = innerWidth;
+c.height = innerHeight;
+
+let p=[];
+for(let i=0;i<60;i++){
+  p.push({
+    x:Math.random()*c.width,
+    y:Math.random()*c.height,
+    r:Math.random()*2+1,
+    s:Math.random()*0.6+0.2
+  });
+}
+
+function draw(){
+  ctx.clearRect(0,0,c.width,c.height);
+  for(let i of p){
+    ctx.beginPath();
+    ctx.fillStyle="rgba(255,180,220,.5)";
+    ctx.arc(i.x,i.y,i.r,0,Math.PI*2);
+    ctx.fill();
+    i.y-=i.s;
+    if(i.y<0){i.y=c.height;i.x=Math.random()*c.width;}
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+
+onresize=()=>{c.width=innerWidth;c.height=innerHeight}
 </script>
 </body>
 </html>
