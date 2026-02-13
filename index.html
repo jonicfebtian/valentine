@@ -3,95 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Valentine 🤍</title>
+<title>Untuk Hana 🤍</title>
+
 <style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#ffd6e8,#fff0f6,#ffe6f0);
+  overflow:hidden;
+}
+
 #lux{
   position:fixed;
   inset:0;
   z-index:0;
   pointer-events:none;
 }
-.card, .container{
+
+.container{
   position:relative;
   z-index:2;
-}
-body{
-  margin:0;
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background: radial-gradient(circle at top, #1c0522, #000);
-  overflow:hidden;
-  color:#fff;
-}
-.container{
-  background:rgba(255,255,255,.06);
-  backdrop-filter: blur(12px);
-  border-radius:22px;
+  background:rgba(255,255,255,.72);
+  backdrop-filter: blur(14px);
+  border-radius:26px;
   padding:28px 22px;
-  text-align:center;
   max-width:420px;
   width:90%;
-  box-shadow:0 0 40px rgba(255,105,180,.25);
-  animation:fadeIn 1.5s ease;
+  text-align:center;
+  box-shadow:0 15px 45px rgba(255,140,180,.35);
+  animation:fadeIn 1.2s ease;
 }
 
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1;transform:translateY(0)}
-}
 h1{
-    color:#ff4f7a;
-    margin-bottom:12px;
+  margin-top:0;
+  color:#ff4f7a;
 }
+
 p{
-    color:#444;
-    font-size:15px;
-    line-height:1.7;
+  font-size:15px;
+  line-height:1.7;
+  color:#555;
 }
+
 button{
-    margin-top:15px;
-    padding:12px 20px;
-    border:none;
-    border-radius:25px;
-    background:#ff4f7a;
-    color:white;
-    font-size:15px;
-    cursor:pointer;
+  margin-top:14px;
+  padding:12px 22px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#ff4f7a,#ff85a1);
+  color:white;
+  font-size:14px;
+  cursor:pointer;
+  box-shadow:0 6px 16px rgba(255,79,122,.35);
 }
-.hide{
-    display:none;
+
+button:active{transform:scale(.97)}
+
+.hide{display:none}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(15px)}
+  to{opacity:1;transform:translateY(0)}
 }
 </style>
 </head>
+
 <body>
+
 <canvas id="lux"></canvas>
+
 <div class="container" id="openCard">
-    <h1>🤍 Hai Hana Grace 🤍</h1>
-    <p>Ada pesan kecil buat kamu.<br>Semoga bikin senyum </p>
-    <button onclick="openMsg()">Buka Pesan ✨</button>
+  <h1>🤍 Hai Hana Grace 🤍</h1>
+  <p>Ada pesan kecil buat kamu.<br>Semoga bikin senyum 😊</p>
+  <button onclick="openMsg()">Buka Pesan ✨</button>
 </div>
+
 <div class="container hide" id="msgCard">
-    <h1>Happy Valentine 🤍</h1>
-    <p>
-        Ini cuma pesan sederhana,<br>
-        tapi semoga bisa jadi pengingat kecil <br><br>
-        Terima kasih ya, karena obrolan sama kamu<br>
-        selalu bikin hari terasa lebih ringan dan seru.<br>
-        Kadang senyum sendiri, kadang ketawa,<br>
-        padahal cuma baca chat <br><br>
-        Semoga kita selalu dikasih hal-hal baik,<br>
-        urusan dimudahkan,<br>
-        dan tetap bisa saling nyemangatin satu sama lain ✨<br><br>
-        Semoga harimu menyenangkan ya ️<br>
-        — <b>Jonic Febtian</b>
-    </p>
+  <h1>Happy Valentine 🤍</h1>
+  <p>
+    Ini cuma pesan sederhana,<br>
+    tapi semoga bisa jadi pengingat kecil.<br><br>
+
+    Terima kasih ya, karena obrolan sama kamu<br>
+    selalu bikin hari terasa lebih ringan dan seru.<br>
+    Kadang senyum sendiri, kadang ketawa,<br>
+    padahal cuma baca chat 😊<br><br>
+
+    Semoga kita selalu dikasih hal-hal baik,<br>
+    urusan dimudahkan,<br>
+    dan tetap bisa saling nyemangatin satu sama lain ✨<br><br>
+
+    Semoga harimu menyenangkan ya 🤍<br>
+    — <b>Jonic Febtian</b>
+  </p>
 </div>
-<audio id="music" autoplay loop>
+
+<audio id="music" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
+
 <script>
 function openMsg(){
   document.getElementById("openCard").classList.add("hide");
@@ -105,11 +121,11 @@ const c=document.getElementById("lux");
 if(c){
   const ctx=c.getContext("2d");
   function resize(){
-    c.width=window.innerWidth;
-    c.height=window.innerHeight;
+    c.width=innerWidth;
+    c.height=innerHeight;
   }
   resize();
-  window.onresize=resize;
+  onresize=resize;
 
   let p=[];
   for(let i=0;i<50;i++){
@@ -125,7 +141,7 @@ if(c){
     ctx.clearRect(0,0,c.width,c.height);
     for(let i of p){
       ctx.beginPath();
-      ctx.fillStyle="rgba(255,180,220,.45)";
+      ctx.fillStyle="rgba(255,160,190,.5)";
       ctx.arc(i.x,i.y,i.r,0,Math.PI*2);
       ctx.fill();
       i.y-=i.s;
@@ -136,6 +152,6 @@ if(c){
   draw();
 }
 </script>
+
 </body>
 </html>
-
