@@ -9,20 +9,21 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  background: radial-gradient(circle at top,#16002b,#000);
+  background: radial-gradient(circle at top,#10001f,#000);
   overflow:hidden;
   font-family:'Poppins',sans-serif;
   color:#fff;
 }
 
 /* GALAXY BACKGROUND */
-#stars{
+#galaxy{
   position:fixed;
   inset:0;
   background:
@@ -36,42 +37,71 @@ body{
 }
 
 @keyframes twinkle{
-  0%{opacity:.3}
-  100%{opacity:.7}
+  from{opacity:.25}
+  to{opacity:.6}
+}
+
+/* AURORA */
+#aurora{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(255,0,150,.12),transparent);
+  animation: aurora 8s linear infinite;
+  z-index:1;
+}
+
+@keyframes aurora{
+  0%{transform:translateX(-100%)}
+  100%{transform:translateX(100%)}
+}
+
+/* METEOR */
+.meteor{
+  position:fixed;
+  width:120px;
+  height:2px;
+  background:linear-gradient(90deg,#fff,transparent);
+  animation: shoot 2s linear infinite;
+  opacity:.7;
+}
+
+@keyframes shoot{
+  from{transform:translate(-200px,-200px) rotate(45deg)}
+  to{transform:translate(1500px,1500px) rotate(45deg)}
 }
 
 #lux{
   position:fixed;
   inset:0;
-  z-index:1;
+  z-index:2;
   pointer-events:none;
 }
 
+/* CARD */
 .card{
   position:relative;
-  z-index:2;
+  z-index:5;
   background:rgba(255,255,255,.07);
-  backdrop-filter: blur(16px);
-  border-radius:24px;
+  backdrop-filter: blur(18px);
+  border-radius:26px;
   padding:30px 24px;
   width:90%;
   max-width:430px;
   text-align:center;
-  box-shadow:0 0 60px rgba(255,105,180,.3);
-  animation: fadeIn 1.5s ease;
+  box-shadow:0 0 60px rgba(255,105,180,.35);
+  animation: fadeIn 1.6s ease;
 }
 
 @keyframes fadeIn{
-  from{opacity:0;transform:translateY(30px)}
+  from{opacity:0;transform:translateY(35px)}
   to{opacity:1;transform:translateY(0)}
 }
 
 h1{
   font-family:'Playfair Display',serif;
-  font-weight:600;
   font-size:28px;
-  margin-bottom:14px;
-  color:#ff6fae;
+  margin-bottom:12px;
+  color:#ff79b0;
 }
 
 p{
@@ -89,12 +119,12 @@ button{
   color:white;
   font-size:15px;
   cursor:pointer;
-  box-shadow:0 0 20px rgba(255,105,180,.6);
-  transition:.3s;
+  box-shadow:0 0 20px rgba(255,105,180,.7);
+  transition:.35s;
 }
 
 button:hover{
-  transform:scale(1.05);
+  transform:scale(1.08);
 }
 
 .hide{display:none}
@@ -104,7 +134,7 @@ button:hover{
   margin:14px 0;
   border-radius:16px;
   overflow:hidden;
-  box-shadow:0 0 20px rgba(255,105,180,.4);
+  box-shadow:0 0 20px rgba(255,105,180,.45);
 }
 
 video{
@@ -133,7 +163,13 @@ video{
 </head>
 <body>
 
-<div id="stars"></div>
+<div id="galaxy"></div>
+<div id="aurora"></div>
+
+<div class="meteor" style="top:10%;left:20%;animation-delay:0s"></div>
+<div class="meteor" style="top:30%;left:60%;animation-delay:1.3s"></div>
+<div class="meteor" style="top:50%;left:40%;animation-delay:2.2s"></div>
+
 <canvas id="lux"></canvas>
 
 <div class="card" id="openCard">
@@ -192,11 +228,11 @@ function typeText(){
   if(i<text.length){
     document.getElementById("typing").innerHTML += text.charAt(i).replace(/\n/g,"<br>");
     i++;
-    setTimeout(typeText,28);
+    setTimeout(typeText,30);
   }
 }
 
-/* PARTICLE */
+/* PARTICLE LIGHT */
 const c=document.getElementById("lux");
 const ctx=c.getContext("2d");
 
@@ -208,12 +244,12 @@ resize();
 onresize=resize;
 
 let p=[];
-for(let i=0;i<70;i++){
+for(let i=0;i<80;i++){
   p.push({
     x:Math.random()*c.width,
     y:Math.random()*c.height,
     r:Math.random()*2+1,
-    s:Math.random()*0.7+0.3
+    s:Math.random()*0.9+0.3
   });
 }
 
@@ -221,7 +257,7 @@ function draw(){
   ctx.clearRect(0,0,c.width,c.height);
   for(let i of p){
     ctx.beginPath();
-    ctx.fillStyle="rgba(255,150,220,.55)";
+    ctx.fillStyle="rgba(255,160,220,.55)";
     ctx.arc(i.x,i.y,i.r,0,Math.PI*2);
     ctx.fill();
     i.y-=i.s;
