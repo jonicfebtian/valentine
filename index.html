@@ -25,12 +25,13 @@ body{
   inset:-30%;
   background: conic-gradient(from 0deg,#ffb3c6,#ffd6e8,#ffe6f0,#ffb3c6);
   filter: blur(140px);
-  opacity:.6;
+  opacity:.55;
   animation: spin 40s linear infinite;
+  z-index:0;
 }
 @keyframes spin{100%{transform:rotate(360deg)}}
 
-/* canvas */
+/* sparkle canvas */
 #lux{
   position:fixed;
   inset:0;
@@ -42,10 +43,10 @@ body{
 .card{
   position:relative;
   z-index:2;
-  background:rgba(255,255,255,.82);
+  background:rgba(255,255,255,.86);
   backdrop-filter: blur(16px);
   border-radius:30px;
-  padding:32px 24px;
+  padding:30px 22px;
   max-width:420px;
   width:90%;
   text-align:center;
@@ -109,6 +110,18 @@ button:active{transform:scale(.97)}
   50%{transform:translateY(-8px)}
 }
 
+/* video */
+.vid-wrap{
+  margin:14px auto 12px;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(255,120,170,.35);
+}
+.vid-wrap video{
+  width:100%;
+  display:block;
+}
+
 /* falling petals */
 .petal{
   position:fixed;
@@ -116,6 +129,7 @@ button:active{transform:scale(.97)}
   font-size:18px;
   animation: fall linear infinite;
   opacity:.7;
+  z-index:1;
 }
 @keyframes fall{
   to{transform:translateY(110vh) rotate(360deg)}
@@ -137,6 +151,11 @@ button:active{transform:scale(.97)}
 
 <div class="card hide" id="msgCard">
   <h1>Happy Valentine 🤍</h1>
+
+  <div class="vid-wrap">
+    <video id="video" src="hana.mp4" muted loop playsinline></video>
+  </div>
+
   <p id="typing"></p>
 </div>
 
@@ -162,13 +181,19 @@ urusan dimudahkan,
 dan tetap bisa saling nyemangatin satu sama lain ✨
 
 Semoga harimu menyenangkan dan semangat kuliahnya ya 🤍
-Apapun yang kamu lakukan, I'm always proud of you
+Apapun yang kamu lakuin, aku selalu bangga sama kamu
 — Jonic Febtian`;
 
 function openMsg(){
   document.getElementById("openCard").classList.add("hide");
   document.getElementById("msgCard").classList.remove("hide");
-  document.getElementById("music").play();
+
+  const m=document.getElementById("music");
+  if(m) m.play();
+
+  const v=document.getElementById("video");
+  if(v) v.play();
+
   typeText();
 }
 
@@ -178,7 +203,7 @@ function typeText(){
   if(i<text.length){
     document.getElementById("typing").innerHTML += text[i] === "\n" ? "<br>" : text[i];
     i++;
-    setTimeout(typeText, 40);
+    setTimeout(typeText, 38);
   }
 }
 
@@ -213,13 +238,13 @@ function draw(){
 draw();
 
 /* falling petals */
-for(let i=0;i<15;i++){
+for(let i=0;i<16;i++){
   let s=document.createElement("div");
   s.className="petal";
   s.innerHTML="🌸";
   s.style.left=Math.random()*100+"vw";
   s.style.animationDuration=(8+Math.random()*8)+"s";
-  s.style.fontSize=(14+Math.random()*16)+"px";
+  s.style.fontSize=(14+Math.random()*18)+"px";
   document.body.appendChild(s);
 }
 </script>
