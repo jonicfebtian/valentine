@@ -101,6 +101,72 @@ button:hover{transform:scale(1.05)}
   line-height:1.75;
   white-space:pre-line;
 }
+
+/* ===== TIC TAC TOE ===== */
+#playBtn { margin-top:16px; }
+#gameWrap{
+  margin-top:18px;
+  padding:14px;
+  border-radius:18px;
+  background:rgba(255,255,255,.06);
+  box-shadow:0 0 35px rgba(160,120,255,.22);
+}
+
+.game-head{
+  font-size:14px;
+  opacity:.95;
+  line-height:1.5;
+  margin-bottom:10px;
+}
+
+.board{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:10px;
+  margin:10px auto 12px;
+  width:min(300px, 100%);
+}
+
+.cell{
+  aspect-ratio:1/1;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.05);
+  box-shadow:0 0 18px rgba(160,120,255,.12);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:34px;
+  font-weight:700;
+  cursor:pointer;
+  user-select:none;
+  transition:.2s;
+}
+.cell:hover{ transform:scale(1.02); }
+.cell.disabled{ cursor:not-allowed; opacity:.75; }
+
+#gameStatus{
+  font-size:14px;
+  opacity:.9;
+  margin-top:6px;
+  line-height:1.5;
+}
+
+.small-btn{
+  margin-top:10px;
+  padding:10px 18px;
+  border-radius:999px;
+  font-size:14px;
+}
+
+#rewardImg{
+  margin-top:14px;
+  width:100%;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 0 35px rgba(160,120,255,.30);
+  display:block;
+}
 </style>
 </head>
 
@@ -126,6 +192,26 @@ button:hover{transform:scale(1.05)}
   </div>
 
   <p id="typing"></p>
+
+  <!-- tombol muncul setelah typing selesai -->
+  <button id="playBtn" class="hide" onclick="showGame()">Play Tic Tac Toe 🤍</button>
+
+  <!-- GAME -->
+  <div id="gameWrap" class="hide">
+    <div class="game-head">
+      Kamu = <b>X</b> &nbsp;|&nbsp; Robot = <b>O</b><br>
+      Menang lawan robot dulu ya ✨
+    </div>
+
+    <div class="board" id="board"></div>
+
+    <div id="gameStatus">Your turn.</div>
+
+    <button class="small-btn" onclick="resetGame()">Restart Game</button>
+
+    <!-- reward image (muncul kalau player menang) -->
+    <img id="rewardImg" class="hide" src="image2.png" alt="image2">
+  </div>
 </div>
 
 <audio id="music" loop>
@@ -138,7 +224,15 @@ button:hover{transform:scale(1.05)}
 function openMsg(){
   document.getElementById("openCard").classList.add("hide");
   document.getElementById("msgCard").classList.remove("hide");
-  document.getElementById("music").play();
+  const music = document.getElementById("music");
+  music.play().catch(()=>{ /* ignore autoplay restrictions */ });
+
+  // reset typing setiap buka
+  document.getElementById("typing").innerHTML = "";
+  document.getElementById("playBtn").classList.add("hide");
+  document.getElementById("gameWrap").classList.add("hide");
+
+  i = 0;
   typeWriter();
 }
 
@@ -177,6 +271,152 @@ function typeWriter(){
     document.getElementById("typing").innerHTML += text.charAt(i);
     i++;
     setTimeout(typeWriter,45);
+  } else {
+    // selesai typing -> munculin tombol game
+    document.getElementById("playBtn").classList.remove("hide");
+  }
+}
+
+/* ===== TIC TAC TOE vs ROBOT ===== */
+let board = Array(9).fill(null);
+let gameOver = false;
+
+const boardEl = document.getElementById("board");
+const statusEl = document.getElementById("gameStatus");
+const rewardImg = document.getElementById("rewardImg");
+
+function showGame(){
+  document.getElementById("gameWrap").classList.remove("hide");
+  resetGame();
+  // auto scroll ke bawah biar keliatan gamenya
+  document.getElementById("msgCard").scrollTop = document.getElementById("msgCard").scrollHeight;
+}
+
+function renderBoard(){
+  boardEl.innerHTML = "";
+  board.forEach((val, idx) => {
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    cell.textContent = val ? val : "";
+    if(gameOver || val) cell.classList.add("disabled");
+    cell.addEventListener("click", () => playerMove(idx));
+    boardEl.appendChild(cell);
+  });
+}
+
+function playerMove(idx){
+  if(gameOver) return;
+  if(board[idx]) return;
+
+  board[idx] = "X";
+  renderBoard();
+
+  const w = getWinner(board);
+  if(w) return endGame(w);
+
+  statusEl.textContent = "Robot thinking...";
+  setTimeout(() => {
+    robotMove();
+  }, 350);
+}
+
+function robotMove(){
+  if(gameOver) return;
+
+  const move = bestMove(board);
+  if(move !== -1) board[move] = "O";
+  renderBoard();
+
+  const w = getWinner(board);
+  if(w) return endGame(w);
+
+  statusEl.textContent = "Your turn.";
+}
+
+function endGame(result){
+  gameOver = true;
+
+  if(result === "X"){
+    statusEl.textContent = "You win! 🤍";
+    rewardImg.classList.remove("hide"); // tampilkan image2.png
+  } else if(result === "O"){
+    statusEl.textContent = "Robot wins 😭 try again.";
+  } else {
+    statusEl.textContent = "Draw! one more round?";
+  }
+
+  // disable semua cell
+  renderBoard();
+}
+
+function resetGame(){
+  board = Array(9).fill(null);
+  gameOver = false;
+  statusEl.textContent = "Your turn.";
+  rewardImg.classList.add("hide");
+  renderBoard();
+}
+
+function getWinner(b){
+  const lines = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+  for(const [a,c,d] of lines){
+    if(b[a] && b[a] === b[c] && b[a] === b[d]) return b[a];
+  }
+  if(b.every(x => x)) return "draw";
+  return null;
+}
+
+/* Robot AI: minimax (perfect play) */
+function bestMove(b){
+  let bestScore = -Infinity;
+  let move = -1;
+
+  for(let i=0;i<9;i++){
+    if(b[i] === null){
+      b[i] = "O";
+      const score = minimax(b, 0, false);
+      b[i] = null;
+      if(score > bestScore){
+        bestScore = score;
+        move = i;
+      }
+    }
+  }
+  return move;
+}
+
+function minimax(b, depth, isMax){
+  const res = getWinner(b);
+  if(res){
+    if(res === "O") return 10 - depth;
+    if(res === "X") return depth - 10;
+    return 0;
+  }
+
+  if(isMax){
+    let best = -Infinity;
+    for(let i=0;i<9;i++){
+      if(b[i] === null){
+        b[i] = "O";
+        best = Math.max(best, minimax(b, depth+1, false));
+        b[i] = null;
+      }
+    }
+    return best;
+  } else {
+    let best = Infinity;
+    for(let i=0;i<9;i++){
+      if(b[i] === null){
+        b[i] = "X";
+        best = Math.min(best, minimax(b, depth+1, true));
+        b[i] = null;
+      }
+    }
+    return best;
   }
 }
 
