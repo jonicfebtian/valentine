@@ -49,6 +49,7 @@ canvas{position:fixed;inset:0;z-index:0}
   animation:fadeUp 1.2s ease;
   max-height:90vh;
   overflow-y:auto;
+  scrollbar-width:thin;
 }
 
 @keyframes fadeUp{
@@ -291,8 +292,8 @@ button:hover{transform:scale(1.05)}
 
     <p id="typing"></p>
 
-    <!-- muncul setelah typing selesai -->
-    <button id="playBtn" class="hide" onclick="showGame()">Play Tic Tac Toe 🤍</button>
+    <!-- changed text here -->
+    <button id="playBtn" class="hide" onclick="showGame()">There is a secret 🤍</button>
 
     <!-- GAME -->
     <div id="gameWrap" class="hide">
@@ -313,6 +314,11 @@ button:hover{transform:scale(1.05)}
 
   <audio id="music" loop>
     <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Win SFX: taruh file win.mp3 sefolder -->
+  <audio id="winSfx" preload="auto">
+    <source src="win.mp3" type="audio/mpeg">
   </audio>
 
 </div>
@@ -396,6 +402,17 @@ rewardModal.addEventListener("click", (e)=>{
 document.addEventListener("keydown", (e)=>{
   if(e.key === "Escape" && rewardModal.classList.contains("show")) closeReward();
 });
+
+/* ===== WIN SFX ===== */
+function playWinSfx(){
+  const sfx = document.getElementById("winSfx");
+  if(!sfx) return;
+  try{
+    sfx.currentTime = 0;
+    const p = sfx.play();
+    if(p && typeof p.catch === "function") p.catch(()=>{});
+  }catch(e){}
+}
 
 /* ===== TIC TAC TOE (EASY + PICK X/O) ===== */
 let board = Array(9).fill(null);
@@ -485,6 +502,7 @@ function endGame(result){
   if(result === player){
     statusEl.textContent = "You win! 🤍";
     startConfetti(1800);
+    playWinSfx();      // <— meriah sound effect saat popup keluar
     openReward();
   } else if(result === robot){
     statusEl.textContent = "Robot wins 😭 try again.";
@@ -709,5 +727,6 @@ function draw(){
 }
 draw();
 </script>
+
 </body>
 </html>
