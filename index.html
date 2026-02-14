@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>For Hana 🤍</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@ body{
 
 canvas{position:fixed;inset:0;z-index:0}
 
-/* Confetti Canvas */
+/* confetti canvas */
 #confetti{
   position:fixed;
   inset:0;
@@ -59,12 +59,14 @@ canvas{position:fixed;inset:0;z-index:0}
 h1{
   font-family:'Playfair Display',serif;
   font-weight:600;
+  letter-spacing:1px;
   margin-bottom:12px;
 }
 
 p{
   line-height:1.75;
   font-size:15px;
+  opacity:.95;
 }
 
 button{
@@ -75,19 +77,22 @@ button{
   background:linear-gradient(135deg,#ff9dd5,#b47cff,#6f9cff);
   color:#fff;
   font-weight:600;
+  font-size:15px;
   cursor:pointer;
   box-shadow:0 0 25px rgba(180,120,255,.45);
-  transition:.3s;
+  transition:.35s;
 }
 button:hover{transform:scale(1.05)}
 .hide{display:none}
 
-/* Video */
+/* ===== VIDEO ===== */
 .video-box{
   margin:14px 0 18px;
   border-radius:18px;
   overflow:hidden;
-  height:260px;
+  box-shadow:0 0 35px rgba(160,120,255,.35);
+  height:280px;
+  position:relative;
   background:#000;
 }
 .video-box video{
@@ -96,102 +101,160 @@ button:hover{transform:scale(1.05)}
   object-fit:cover;
 }
 
-/* Typing */
+/* typing */
 #typing{
   margin-top:12px;
+  font-size:15px;
+  line-height:1.75;
   white-space:pre-line;
 }
 
-/* Game */
+/* ===== TIC TAC TOE ===== */
+#playBtn { margin-top:16px; }
+
 #gameWrap{
   margin-top:18px;
   padding:14px;
   border-radius:18px;
   background:rgba(255,255,255,.06);
+  box-shadow:0 0 35px rgba(160,120,255,.22);
+}
+
+.game-head{
+  font-size:14px;
+  opacity:.95;
+  line-height:1.5;
+  margin-bottom:10px;
 }
 
 .choice-row{
   display:flex;
   gap:10px;
   justify-content:center;
-  margin:10px 0;
+  margin:10px 0 6px;
 }
 
 .pill{
-  padding:8px 14px;
+  padding:10px 16px;
   border-radius:999px;
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.2);
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  font-weight:600;
   cursor:pointer;
+  transition:.25s;
+  box-shadow:0 0 18px rgba(160,120,255,.10);
 }
+.pill:hover{ transform:scale(1.03); }
 .pill.active{
-  background:rgba(255,255,255,.18);
+  box-shadow:0 0 22px rgba(180,120,255,.35);
+  background:rgba(255,255,255,.10);
 }
 
 .board{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:10px;
+  grid-template-columns:repeat(3, 1fr);
+  gap:10px;
+  margin:10px auto 12px;
+  width:min(300px, 100%);
 }
 
 .cell{
   aspect-ratio:1/1;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.05);
+  box-shadow:0 0 18px rgba(160,120,255,.12);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:30px;
-  font-weight:bold;
-  border-radius:12px;
-  background:rgba(255,255,255,.08);
+  font-size:34px;
+  font-weight:700;
   cursor:pointer;
+  user-select:none;
+  transition:.2s;
 }
-.cell.disabled{opacity:.6;cursor:not-allowed}
+.cell:hover{ transform:scale(1.02); }
+.cell.disabled{ cursor:not-allowed; opacity:.75; }
 
-/* Modal */
+#gameStatus{
+  font-size:14px;
+  opacity:.9;
+  margin-top:6px;
+  line-height:1.5;
+}
+
+.small-btn{
+  margin-top:10px;
+  padding:10px 18px;
+  border-radius:999px;
+  font-size:14px;
+}
+
+/* ===== POPUP MODAL (reward image) ===== */
 .modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.6);
-  backdrop-filter:blur(6px);
+  z-index:9997;
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:9997;
+  padding:18px;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(6px);
 }
-
-.modal.show{display:flex}
+.modal.show{ display:flex; }
 
 .modal-card{
-  background:rgba(255,255,255,.1);
-  padding:16px;
-  border-radius:20px;
-  width:min(400px,90%);
+  width:min(420px, 100%);
+  border-radius:22px;
+  padding:14px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 0 55px rgba(170,120,255,.35);
   position:relative;
+  animation:pop .25s ease;
   text-align:center;
+}
+
+@keyframes pop{
+  from{ transform:scale(.96); opacity:0; }
+  to{ transform:scale(1); opacity:1; }
 }
 
 .modal-img{
   width:100%;
-  border-radius:16px;
+  border-radius:18px;
+  display:block;
+  box-shadow:0 0 35px rgba(160,120,255,.28);
+  background:#000;
 }
 
 .close-btn{
   position:absolute;
-  top:8px;
-  right:8px;
-  background:rgba(255,255,255,.15);
-  border:none;
-  width:36px;
-  height:36px;
-  border-radius:50%;
+  top:10px;
+  right:10px;
+  width:40px;
+  height:40px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.10);
+  color:#fff;
+  font-weight:800;
   cursor:pointer;
-  font-weight:bold;
+  box-shadow:0 0 18px rgba(160,120,255,.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s;
 }
+.close-btn:hover{ transform:scale(1.06); }
 
 .modal-title{
-  margin-top:10px;
+  margin:10px 6px 0;
   font-size:14px;
+  opacity:.95;
+  line-height:1.5;
 }
 </style>
 </head>
@@ -200,204 +263,448 @@ button:hover{transform:scale(1.05)}
 <canvas id="lux"></canvas>
 <canvas id="confetti"></canvas>
 
-<!-- Reward Popup -->
-<div class="modal" id="rewardModal">
-  <div class="modal-card">
-    <button class="close-btn" onclick="closeReward()">×</button>
-    <img src="image2.png" class="modal-img">
-    <div class="modal-title">
-      Totally worth it, I get to celebrate my valentine 🤍
-    </div>
+<!-- Reward popup -->
+<div class="modal" id="rewardModal" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-label="Reward">
+    <button class="close-btn" type="button" onclick="closeReward()">×</button>
+    <img class="modal-img" id="rewardImg" src="image2.png" alt="image2">
+    <div class="modal-title">Totally worth it, I get to celebrate my valentine 🤍</div>
   </div>
 </div>
 
 <div class="wrapper">
 
-<div class="card" id="openCard">
-  <h1>Hi Hana 🤍</h1>
-  <p>I made something small for you ✨</p>
-  <button onclick="openMsg()">Open Message</button>
-</div>
-
-<div class="card hide" id="msgCard">
-  <h1>Happy Valentine 🤍</h1>
-
-  <div class="video-box">
-    <video autoplay loop muted playsinline>
-      <source src="hana.mp4" type="video/mp4">
-    </video>
+  <div class="card" id="openCard">
+    <h1>Hi Hana 🤍</h1>
+    <p>I made something small for you.<br>Hope it brings a little smile ✨</p>
+    <button onclick="openMsg()">Open Message</button>
   </div>
 
-  <p id="typing"></p>
+  <div class="card hide" id="msgCard">
+    <h1>Happy Valentine 🤍</h1>
 
-  <button id="playBtn" class="hide" onclick="showGame()">Play Tic Tac Toe 🤍</button>
-
-  <div id="gameWrap" class="hide">
-    <div id="legend">Pick X or O 🤍</div>
-
-    <div class="choice-row">
-      <div class="pill active" id="pickX" onclick="pickSide('X')">X</div>
-      <div class="pill" id="pickO" onclick="pickSide('O')">O</div>
+    <div class="video-box">
+      <video autoplay loop muted playsinline>
+        <source src="hana.mp4" type="video/mp4">
+      </video>
     </div>
 
-    <div class="board" id="board"></div>
-    <div id="gameStatus"></div>
-  </div>
-</div>
+    <p id="typing"></p>
 
-<audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
+    <!-- muncul setelah typing selesai -->
+    <button id="playBtn" class="hide" onclick="showGame()">Play Tic Tac Toe 🤍</button>
+
+    <!-- GAME -->
+    <div id="gameWrap" class="hide">
+      <div class="game-head" id="legend">Pilih dulu mau jadi <b>X</b> atau <b>O</b> 🤍</div>
+
+      <div class="choice-row">
+        <button class="pill active" id="pickX" type="button" onclick="pickSide('X')">I want X</button>
+        <button class="pill" id="pickO" type="button" onclick="pickSide('O')">I want O</button>
+      </div>
+
+      <div class="board" id="board"></div>
+
+      <div id="gameStatus">Your turn.</div>
+
+      <button class="small-btn" onclick="resetGame(true)">Restart Game</button>
+    </div>
+  </div>
+
+  <audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
 
 </div>
 
 <script>
+/* ===== OPEN MESSAGE ===== */
 function openMsg(){
-  openCard.classList.add("hide");
-  msgCard.classList.remove("hide");
+  document.getElementById("openCard").classList.add("hide");
+  document.getElementById("msgCard").classList.remove("hide");
+
+  const music = document.getElementById("music");
   music.play().catch(()=>{});
-  i=0;
-  typing.innerHTML="";
+
+  // reset typing + UI
+  document.getElementById("typing").innerHTML = "";
+  document.getElementById("playBtn").classList.add("hide");
+  document.getElementById("gameWrap").classList.add("hide");
+
+  // close popup if open
+  closeReward(true);
+
+  i = 0;
   typeWriter();
 }
 
-const text=`This is just a simple message 🤍`;
+const text = `This is just a simple message,
+but I hope you’ll always remember it 🤍
+
+Thank you for every little conversation,
+every random story, and every small moment.
+Somehow, they always manage to make my days feel lighter.
+
+Sometimes I catch myself smiling,
+sometimes I laugh without realizing,
+all because of a simple chat from you.
+
+Thank you for being here,
+even when we’re far apart.
+Let’s just take everything slowly, one step at a time.
+
+I hope life treats you gently,
+your days stay kind,
+and your dreams slowly find their way.
+
+I hope college feels a little lighter too,
+that every late night, deadline, and tired moment
+leads you closer to what you’re chasing.
+
+No matter where life takes you,
+or what you choose to do,
+I’ll always be proud of you ✨
+
+— Your number one supporter`;
+
 let i=0;
 function typeWriter(){
   if(i<text.length){
-    typing.innerHTML+=text.charAt(i);
+    document.getElementById("typing").innerHTML += text.charAt(i);
     i++;
-    setTimeout(typeWriter,40);
-  }else{
-    playBtn.classList.remove("hide");
+    setTimeout(typeWriter,45);
+  } else {
+    document.getElementById("playBtn").classList.remove("hide");
   }
 }
 
-/* GAME */
-let boardArr, player="X", robot="O", playerTurn=true, gameOver=false;
-const ROBOT_MISTAKE_RATE=0.65;
+/* ===== REWARD POPUP ===== */
+const rewardModal = document.getElementById("rewardModal");
+function openReward(){
+  rewardModal.classList.add("show");
+  rewardModal.setAttribute("aria-hidden", "false");
+}
+function closeReward(silent=false){
+  rewardModal.classList.remove("show");
+  rewardModal.setAttribute("aria-hidden", "true");
+  if(!silent) stopConfetti();
+}
+// close when clicking outside
+rewardModal.addEventListener("click", (e)=>{
+  if(e.target === rewardModal) closeReward();
+});
+document.addEventListener("keydown", (e)=>{
+  if(e.key === "Escape" && rewardModal.classList.contains("show")) closeReward();
+});
+
+/* ===== TIC TAC TOE (EASY + PICK X/O) ===== */
+let board = Array(9).fill(null);
+let gameOver = false;
+
+let player = "X";
+let robot = "O";
+let playerTurn = true;
+
+// makin besar = makin gampang (robot sering salah)
+const ROBOT_MISTAKE_RATE = 0.62;
+
+const boardEl = document.getElementById("board");
+const statusEl = document.getElementById("gameStatus");
+const legendEl = document.getElementById("legend");
+const pickXBtn = document.getElementById("pickX");
+const pickOBtn = document.getElementById("pickO");
 
 function showGame(){
-  gameWrap.classList.remove("hide");
-  resetGame();
+  document.getElementById("gameWrap").classList.remove("hide");
+  updateLegend();
+  resetGame(true);
+  document.getElementById("msgCard").scrollTop = document.getElementById("msgCard").scrollHeight;
 }
 
-function pickSide(s){
-  player=s;
-  robot=s==="X"?"O":"X";
-  pickX.classList.toggle("active",player==="X");
-  pickO.classList.toggle("active",player==="O");
-  resetGame();
+function pickSide(side){
+  player = side;
+  robot = (side === "X") ? "O" : "X";
+
+  pickXBtn.classList.toggle("active", player === "X");
+  pickOBtn.classList.toggle("active", player === "O");
+
+  resetGame(true);
 }
 
-function resetGame(){
-  boardArr=Array(9).fill(null);
-  gameOver=false;
-  playerTurn=player==="X";
-  render();
-  if(!playerTurn)setTimeout(robotMove,400);
+function updateLegend(){
+  legendEl.innerHTML = `Kamu = <b>${player}</b> &nbsp;|&nbsp; Robot = <b>${robot}</b><br>Menang dulu ya ✨`;
 }
 
-function render(){
-  board.innerHTML="";
-  boardArr.forEach((v,i)=>{
-    let d=document.createElement("div");
-    d.className="cell"+(v||!playerTurn||gameOver?" disabled":"");
-    d.innerText=v||"";
-    d.onclick=()=>move(i);
-    board.appendChild(d);
+function renderBoard(){
+  boardEl.innerHTML = "";
+  board.forEach((val, idx) => {
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    cell.textContent = val ? val : "";
+    if(gameOver || val || !playerTurn) cell.classList.add("disabled");
+    cell.addEventListener("click", () => playerMove(idx));
+    boardEl.appendChild(cell);
   });
 }
 
-function move(i){
-  if(boardArr[i]||!playerTurn||gameOver)return;
-  boardArr[i]=player;
-  playerTurn=false;
-  check();
-  render();
-  if(!gameOver)setTimeout(robotMove,300);
+function playerMove(idx){
+  if(gameOver) return;
+  if(!playerTurn) return;
+  if(board[idx]) return;
+
+  board[idx] = player;
+  playerTurn = false;
+  renderBoard();
+
+  const w = getWinner(board);
+  if(w) return endGame(w);
+
+  statusEl.textContent = "Robot thinking...";
+  setTimeout(robotMove, 320);
 }
 
 function robotMove(){
-  if(gameOver)return;
-  let empty=boardArr.map((v,i)=>v?null:i).filter(v=>v!==null);
-  let moveIndex;
-  if(Math.random()<ROBOT_MISTAKE_RATE){
-    moveIndex=empty[Math.floor(Math.random()*empty.length)];
-  }else{
-    moveIndex=empty[Math.floor(Math.random()*empty.length)];
-  }
-  boardArr[moveIndex]=robot;
-  playerTurn=true;
-  check();
-  render();
+  if(gameOver) return;
+
+  const move = easyRobotMove(board);
+  if(move !== -1) board[move] = robot;
+
+  renderBoard();
+
+  const w = getWinner(board);
+  if(w) return endGame(w);
+
+  playerTurn = true;
+  statusEl.textContent = "Your turn.";
+  renderBoard();
 }
 
-function check(){
-  const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-  for(let [a,b,c] of wins){
-    if(boardArr[a]&&boardArr[a]===boardArr[b]&&boardArr[a]===boardArr[c]){
-      gameOver=true;
-      if(boardArr[a]===player){
-        startConfetti();
-        rewardModal.classList.add("show");
-      }
+function endGame(result){
+  gameOver = true;
+
+  if(result === player){
+    statusEl.textContent = "You win! 🤍";
+    startConfetti(1800);
+    openReward();
+  } else if(result === robot){
+    statusEl.textContent = "Robot wins 😭 try again.";
+  } else {
+    statusEl.textContent = "Draw! one more round?";
+  }
+
+  renderBoard();
+}
+
+function resetGame(keepSide=true){
+  board = Array(9).fill(null);
+  gameOver = false;
+
+  if(!keepSide){
+    player = "X"; robot = "O";
+    pickXBtn.classList.add("active");
+    pickOBtn.classList.remove("active");
+  }
+
+  updateLegend();
+
+  // kalau player pilih O, robot (X) jalan dulu
+  if(player === "O"){
+    playerTurn = false;
+    statusEl.textContent = "Robot starts...";
+    renderBoard();
+    setTimeout(robotMove, 380);
+  } else {
+    playerTurn = true;
+    statusEl.textContent = "Your turn.";
+    renderBoard();
+  }
+}
+
+function getWinner(b){
+  const lines = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+  for(const [a,c,d] of lines){
+    if(b[a] && b[a] === b[c] && b[a] === b[d]) return b[a];
+  }
+  if(b.every(x => x)) return "draw";
+  return null;
+}
+
+/* Easy robot: random mistakes + heuristics */
+function easyRobotMove(b){
+  const empties = b.map((v,i)=>v===null?i:null).filter(v=>v!==null);
+  if(empties.length === 0) return -1;
+
+  // kadang robot "ngaco"
+  if(Math.random() < ROBOT_MISTAKE_RATE){
+    return empties[Math.floor(Math.random()*empties.length)];
+  }
+
+  // 1) win
+  let m = findFinishingMove(b, robot);
+  if(m !== -1) return m;
+
+  // 2) block
+  m = findFinishingMove(b, player);
+  if(m !== -1) return m;
+
+  // 3) center
+  if(b[4] === null) return 4;
+
+  // 4) corners
+  const corners = [0,2,6,8].filter(i => b[i] === null);
+  if(corners.length) return corners[Math.floor(Math.random()*corners.length)];
+
+  // 5) any
+  return empties[Math.floor(Math.random()*empties.length)];
+}
+
+function findFinishingMove(b, mark){
+  const lines = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+  for(const [a,c,d] of lines){
+    const line = [b[a], b[c], b[d]];
+    const marks = line.filter(x => x === mark).length;
+    const empties = line.map((x,idx)=>x===null?idx:-1).filter(x=>x!==-1);
+    if(marks === 2 && empties.length === 1){
+      const pos = empties[0];
+      return [a,c,d][pos];
     }
   }
+  return -1;
 }
 
-/* Confetti */
-const confetti=document.getElementById("confetti");
-const ctx2=confetti.getContext("2d");
-let pieces=[];
-function startConfetti(){
-  confetti.width=innerWidth;
-  confetti.height=innerHeight;
-  confetti.style.display="block";
-  pieces=Array.from({length:150},()=>({
-    x:Math.random()*confetti.width,
-    y:Math.random()*confetti.height-confetti.height,
-    r:Math.random()*6+4,
-    d:Math.random()*50
-  }));
-  setTimeout(()=>confetti.style.display="none",2000);
-  animate();
+/* ===== CONFETTI (no libraries) ===== */
+const confettiCanvas = document.getElementById("confetti");
+const cctx = confettiCanvas.getContext("2d");
+let confettiRAF = null;
+let confettiEndAt = 0;
+let confettiPieces = [];
+
+function sizeConfetti(){
+  confettiCanvas.width = innerWidth;
+  confettiCanvas.height = innerHeight;
 }
-function animate(){
-  ctx2.clearRect(0,0,confetti.width,confetti.height);
-  ctx2.fillStyle="rgba(255,180,255,.9)";
-  pieces.forEach(p=>{
-    ctx2.beginPath();
-    ctx2.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx2.fill();
-    p.y+=3;
-    if(p.y>confetti.height)p.y=0;
-  });
-  requestAnimationFrame(animate);
+addEventListener("resize", sizeConfetti);
+
+function startConfetti(durationMs=1500){
+  sizeConfetti();
+  confettiCanvas.style.display = "block";
+  confettiEndAt = performance.now() + durationMs;
+  confettiPieces = makeConfetti(180);
+
+  if(confettiRAF) cancelAnimationFrame(confettiRAF);
+  tickConfetti();
 }
 
-function closeReward(){
-  rewardModal.classList.remove("show");
+function stopConfetti(){
+  if(confettiRAF) cancelAnimationFrame(confettiRAF);
+  confettiRAF = null;
+  confettiCanvas.style.display = "none";
+  confettiPieces = [];
 }
 
-/* Background stars */
+function makeConfetti(count){
+  const pieces = [];
+  const palette = [
+    "rgba(255,157,213,.95)",
+    "rgba(180,124,255,.95)",
+    "rgba(111,156,255,.95)",
+    "rgba(255,255,255,.85)"
+  ];
+  for(let i=0;i<count;i++){
+    pieces.push({
+      x: Math.random() * confettiCanvas.width,
+      y: -20 - Math.random()*confettiCanvas.height*0.2,
+      w: 6 + Math.random()*8,
+      h: 8 + Math.random()*10,
+      vx: (Math.random()-0.5)*2.2,
+      vy: 2.2 + Math.random()*3.6,
+      rot: Math.random()*Math.PI,
+      vr: (Math.random()-0.5)*0.2,
+      alpha: 0.9,
+      col: palette[Math.floor(Math.random()*palette.length)]
+    });
+  }
+  return pieces;
+}
+
+function tickConfetti(){
+  const now = performance.now();
+  cctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+
+  for(const p of confettiPieces){
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rot += p.vr;
+
+    // sway
+    p.vx += (Math.random()-0.5)*0.04;
+
+    // fade near end
+    if(now > confettiEndAt - 450){
+      p.alpha = Math.max(0, p.alpha - 0.02);
+    }
+
+    cctx.save();
+    cctx.globalAlpha = p.alpha;
+    cctx.translate(p.x, p.y);
+    cctx.rotate(p.rot);
+    cctx.fillStyle = p.col;
+    cctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+    cctx.restore();
+
+    // recycle
+    if(p.y > confettiCanvas.height + 30){
+      p.y = -20;
+      p.x = Math.random()*confettiCanvas.width;
+      p.alpha = 0.9;
+    }
+  }
+
+  if(now < confettiEndAt){
+    confettiRAF = requestAnimationFrame(tickConfetti);
+  } else {
+    setTimeout(stopConfetti, 250);
+  }
+}
+
+/* ===== galaxy particles ===== */
 const c=document.getElementById("lux");
 const ctx=c.getContext("2d");
-function resize(){c.width=innerWidth;c.height=innerHeight}
-resize();onresize=resize;
-let stars=Array.from({length:120},()=>({
-  x:Math.random()*c.width,
-  y:Math.random()*c.height,
-  r:Math.random()*1.5
-}));
+function resizeLux(){c.width=innerWidth;c.height=innerHeight}
+resizeLux();
+onresize=()=>{resizeLux(); sizeConfetti();};
+
+let stars=[];
+for(let i=0;i<140;i++){
+  stars.push({
+    x:Math.random()*c.width,
+    y:Math.random()*c.height,
+    r:Math.random()*1.4+.3,
+    s:Math.random()*0.25+.05
+  })
+}
+
 function draw(){
   ctx.clearRect(0,0,c.width,c.height);
-  ctx.fillStyle="rgba(200,160,255,.7)";
-  stars.forEach(s=>{
+  for(let s of stars){
     ctx.beginPath();
+    ctx.fillStyle="rgba(200,160,255,.65)";
     ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
     ctx.fill();
-  });
+    s.y-=s.s;
+    if(s.y<0){
+      s.y=c.height;
+      s.x=Math.random()*c.width;
+    }
+  }
   requestAnimationFrame(draw);
 }
 draw();
