@@ -18,6 +18,15 @@ body{
 
 canvas{position:fixed;inset:0;z-index:0}
 
+/* Confetti Canvas */
+#confetti{
+  position:fixed;
+  inset:0;
+  z-index:9996;
+  pointer-events:none;
+  display:none;
+}
+
 .wrapper{
   min-height:100vh;
   display:flex;
@@ -40,7 +49,6 @@ canvas{position:fixed;inset:0;z-index:0}
   animation:fadeUp 1.2s ease;
   max-height:90vh;
   overflow-y:auto;
-  scrollbar-width:thin;
 }
 
 @keyframes fadeUp{
@@ -51,14 +59,12 @@ canvas{position:fixed;inset:0;z-index:0}
 h1{
   font-family:'Playfair Display',serif;
   font-weight:600;
-  letter-spacing:1px;
   margin-bottom:12px;
 }
 
 p{
   line-height:1.75;
   font-size:15px;
-  opacity:.95;
 }
 
 button{
@@ -69,116 +75,147 @@ button{
   background:linear-gradient(135deg,#ff9dd5,#b47cff,#6f9cff);
   color:#fff;
   font-weight:600;
-  font-size:15px;
   cursor:pointer;
   box-shadow:0 0 25px rgba(180,120,255,.45);
-  transition:.35s;
+  transition:.3s;
 }
 button:hover{transform:scale(1.05)}
 .hide{display:none}
 
-/* ===== VIDEO ===== */
+/* Video */
 .video-box{
   margin:14px 0 18px;
   border-radius:18px;
   overflow:hidden;
-  box-shadow:0 0 35px rgba(160,120,255,.35);
-  height:280px;
-  position:relative;
+  height:260px;
   background:#000;
 }
-
 .video-box video{
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
-/* typing */
+/* Typing */
 #typing{
   margin-top:12px;
-  font-size:15px;
-  line-height:1.75;
   white-space:pre-line;
 }
 
-/* ===== TIC TAC TOE ===== */
-#playBtn { margin-top:16px; }
+/* Game */
 #gameWrap{
   margin-top:18px;
   padding:14px;
   border-radius:18px;
   background:rgba(255,255,255,.06);
-  box-shadow:0 0 35px rgba(160,120,255,.22);
 }
 
-.game-head{
-  font-size:14px;
-  opacity:.95;
-  line-height:1.5;
-  margin-bottom:10px;
+.choice-row{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  margin:10px 0;
+}
+
+.pill{
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.2);
+  cursor:pointer;
+}
+.pill.active{
+  background:rgba(255,255,255,.18);
 }
 
 .board{
   display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:10px;
-  margin:10px auto 12px;
-  width:min(300px, 100%);
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:10px;
 }
 
 .cell{
   aspect-ratio:1/1;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.18);
-  background:rgba(255,255,255,.05);
-  box-shadow:0 0 18px rgba(160,120,255,.12);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:34px;
-  font-weight:700;
+  font-size:30px;
+  font-weight:bold;
+  border-radius:12px;
+  background:rgba(255,255,255,.08);
   cursor:pointer;
-  user-select:none;
-  transition:.2s;
 }
-.cell:hover{ transform:scale(1.02); }
-.cell.disabled{ cursor:not-allowed; opacity:.75; }
+.cell.disabled{opacity:.6;cursor:not-allowed}
 
-#gameStatus{
-  font-size:14px;
-  opacity:.9;
-  margin-top:6px;
-  line-height:1.5;
-}
-
-.small-btn{
-  margin-top:10px;
-  padding:10px 18px;
-  border-radius:999px;
-  font-size:14px;
+/* Modal */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(6px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9997;
 }
 
-#rewardImg{
-  margin-top:14px;
+.modal.show{display:flex}
+
+.modal-card{
+  background:rgba(255,255,255,.1);
+  padding:16px;
+  border-radius:20px;
+  width:min(400px,90%);
+  position:relative;
+  text-align:center;
+}
+
+.modal-img{
   width:100%;
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 0 35px rgba(160,120,255,.30);
-  display:block;
+  border-radius:16px;
+}
+
+.close-btn{
+  position:absolute;
+  top:8px;
+  right:8px;
+  background:rgba(255,255,255,.15);
+  border:none;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.modal-title{
+  margin-top:10px;
+  font-size:14px;
 }
 </style>
 </head>
 
 <body>
-
 <canvas id="lux"></canvas>
+<canvas id="confetti"></canvas>
+
+<!-- Reward Popup -->
+<div class="modal" id="rewardModal">
+  <div class="modal-card">
+    <button class="close-btn" onclick="closeReward()">×</button>
+    <img src="image2.png" class="modal-img">
+    <div class="modal-title">
+      Totally worth it, I get to celebrate my valentine 🤍
+    </div>
+  </div>
+</div>
 
 <div class="wrapper">
 
 <div class="card" id="openCard">
   <h1>Hi Hana 🤍</h1>
-  <p>I made something small for you.<br>Hope it brings a little smile ✨</p>
+  <p>I made something small for you ✨</p>
   <button onclick="openMsg()">Open Message</button>
 </div>
 
@@ -193,24 +230,18 @@ button:hover{transform:scale(1.05)}
 
   <p id="typing"></p>
 
-  <!-- tombol muncul setelah typing selesai -->
   <button id="playBtn" class="hide" onclick="showGame()">Play Tic Tac Toe 🤍</button>
 
-  <!-- GAME -->
   <div id="gameWrap" class="hide">
-    <div class="game-head">
-      Kamu = <b>X</b> &nbsp;|&nbsp; Robot = <b>O</b><br>
-      Menang lawan robot dulu ya ✨
+    <div id="legend">Pick X or O 🤍</div>
+
+    <div class="choice-row">
+      <div class="pill active" id="pickX" onclick="pickSide('X')">X</div>
+      <div class="pill" id="pickO" onclick="pickSide('O')">O</div>
     </div>
 
     <div class="board" id="board"></div>
-
-    <div id="gameStatus">Your turn.</div>
-
-    <button class="small-btn" onclick="resetGame()">Restart Game</button>
-
-    <!-- reward image (muncul kalau player menang) -->
-    <img id="rewardImg" class="hide" src="image2.png" alt="image2">
+    <div id="gameStatus"></div>
   </div>
 </div>
 
@@ -222,237 +253,154 @@ button:hover{transform:scale(1.05)}
 
 <script>
 function openMsg(){
-  document.getElementById("openCard").classList.add("hide");
-  document.getElementById("msgCard").classList.remove("hide");
-  const music = document.getElementById("music");
-  music.play().catch(()=>{ /* ignore autoplay restrictions */ });
-
-  // reset typing setiap buka
-  document.getElementById("typing").innerHTML = "";
-  document.getElementById("playBtn").classList.add("hide");
-  document.getElementById("gameWrap").classList.add("hide");
-
-  i = 0;
+  openCard.classList.add("hide");
+  msgCard.classList.remove("hide");
+  music.play().catch(()=>{});
+  i=0;
+  typing.innerHTML="";
   typeWriter();
 }
 
-const text = `This is just a simple message,
-but I hope you’ll always remember it 🤍
-
-Thank you for every little conversation,
-every random story, and every small moment.
-Somehow, they always manage to make my days feel lighter.
-
-Sometimes I catch myself smiling,
-sometimes I laugh without realizing,
-all because of a simple chat from you.
-
-Thank you for being here,
-even when we’re far apart.
-Let’s just take everything slowly, one step at a time.
-
-I hope life treats you gently,
-your days stay kind,
-and your dreams slowly find their way.
-
-I hope college feels a little lighter too,
-that every late night, deadline, and tired moment
-leads you closer to what you’re chasing.
-
-No matter where life takes you,
-or what you choose to do,
-I’ll always be proud of you ✨
-
-— Your number one supporter`;
-
+const text=`This is just a simple message 🤍`;
 let i=0;
 function typeWriter(){
   if(i<text.length){
-    document.getElementById("typing").innerHTML += text.charAt(i);
+    typing.innerHTML+=text.charAt(i);
     i++;
-    setTimeout(typeWriter,45);
-  } else {
-    // selesai typing -> munculin tombol game
-    document.getElementById("playBtn").classList.remove("hide");
+    setTimeout(typeWriter,40);
+  }else{
+    playBtn.classList.remove("hide");
   }
 }
 
-/* ===== TIC TAC TOE vs ROBOT ===== */
-let board = Array(9).fill(null);
-let gameOver = false;
-
-const boardEl = document.getElementById("board");
-const statusEl = document.getElementById("gameStatus");
-const rewardImg = document.getElementById("rewardImg");
+/* GAME */
+let boardArr, player="X", robot="O", playerTurn=true, gameOver=false;
+const ROBOT_MISTAKE_RATE=0.65;
 
 function showGame(){
-  document.getElementById("gameWrap").classList.remove("hide");
+  gameWrap.classList.remove("hide");
   resetGame();
-  // auto scroll ke bawah biar keliatan gamenya
-  document.getElementById("msgCard").scrollTop = document.getElementById("msgCard").scrollHeight;
 }
 
-function renderBoard(){
-  boardEl.innerHTML = "";
-  board.forEach((val, idx) => {
-    const cell = document.createElement("div");
-    cell.className = "cell";
-    cell.textContent = val ? val : "";
-    if(gameOver || val) cell.classList.add("disabled");
-    cell.addEventListener("click", () => playerMove(idx));
-    boardEl.appendChild(cell);
-  });
-}
-
-function playerMove(idx){
-  if(gameOver) return;
-  if(board[idx]) return;
-
-  board[idx] = "X";
-  renderBoard();
-
-  const w = getWinner(board);
-  if(w) return endGame(w);
-
-  statusEl.textContent = "Robot thinking...";
-  setTimeout(() => {
-    robotMove();
-  }, 350);
-}
-
-function robotMove(){
-  if(gameOver) return;
-
-  const move = bestMove(board);
-  if(move !== -1) board[move] = "O";
-  renderBoard();
-
-  const w = getWinner(board);
-  if(w) return endGame(w);
-
-  statusEl.textContent = "Your turn.";
-}
-
-function endGame(result){
-  gameOver = true;
-
-  if(result === "X"){
-    statusEl.textContent = "You win! 🤍";
-    rewardImg.classList.remove("hide"); // tampilkan image2.png
-  } else if(result === "O"){
-    statusEl.textContent = "Robot wins 😭 try again.";
-  } else {
-    statusEl.textContent = "Draw! one more round?";
-  }
-
-  // disable semua cell
-  renderBoard();
+function pickSide(s){
+  player=s;
+  robot=s==="X"?"O":"X";
+  pickX.classList.toggle("active",player==="X");
+  pickO.classList.toggle("active",player==="O");
+  resetGame();
 }
 
 function resetGame(){
-  board = Array(9).fill(null);
-  gameOver = false;
-  statusEl.textContent = "Your turn.";
-  rewardImg.classList.add("hide");
-  renderBoard();
+  boardArr=Array(9).fill(null);
+  gameOver=false;
+  playerTurn=player==="X";
+  render();
+  if(!playerTurn)setTimeout(robotMove,400);
 }
 
-function getWinner(b){
-  const lines = [
-    [0,1,2],[3,4,5],[6,7,8],
-    [0,3,6],[1,4,7],[2,5,8],
-    [0,4,8],[2,4,6]
-  ];
-  for(const [a,c,d] of lines){
-    if(b[a] && b[a] === b[c] && b[a] === b[d]) return b[a];
+function render(){
+  board.innerHTML="";
+  boardArr.forEach((v,i)=>{
+    let d=document.createElement("div");
+    d.className="cell"+(v||!playerTurn||gameOver?" disabled":"");
+    d.innerText=v||"";
+    d.onclick=()=>move(i);
+    board.appendChild(d);
+  });
+}
+
+function move(i){
+  if(boardArr[i]||!playerTurn||gameOver)return;
+  boardArr[i]=player;
+  playerTurn=false;
+  check();
+  render();
+  if(!gameOver)setTimeout(robotMove,300);
+}
+
+function robotMove(){
+  if(gameOver)return;
+  let empty=boardArr.map((v,i)=>v?null:i).filter(v=>v!==null);
+  let moveIndex;
+  if(Math.random()<ROBOT_MISTAKE_RATE){
+    moveIndex=empty[Math.floor(Math.random()*empty.length)];
+  }else{
+    moveIndex=empty[Math.floor(Math.random()*empty.length)];
   }
-  if(b.every(x => x)) return "draw";
-  return null;
+  boardArr[moveIndex]=robot;
+  playerTurn=true;
+  check();
+  render();
 }
 
-/* Robot AI: minimax (perfect play) */
-function bestMove(b){
-  let bestScore = -Infinity;
-  let move = -1;
-
-  for(let i=0;i<9;i++){
-    if(b[i] === null){
-      b[i] = "O";
-      const score = minimax(b, 0, false);
-      b[i] = null;
-      if(score > bestScore){
-        bestScore = score;
-        move = i;
+function check(){
+  const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  for(let [a,b,c] of wins){
+    if(boardArr[a]&&boardArr[a]===boardArr[b]&&boardArr[a]===boardArr[c]){
+      gameOver=true;
+      if(boardArr[a]===player){
+        startConfetti();
+        rewardModal.classList.add("show");
       }
     }
   }
-  return move;
 }
 
-function minimax(b, depth, isMax){
-  const res = getWinner(b);
-  if(res){
-    if(res === "O") return 10 - depth;
-    if(res === "X") return depth - 10;
-    return 0;
-  }
-
-  if(isMax){
-    let best = -Infinity;
-    for(let i=0;i<9;i++){
-      if(b[i] === null){
-        b[i] = "O";
-        best = Math.max(best, minimax(b, depth+1, false));
-        b[i] = null;
-      }
-    }
-    return best;
-  } else {
-    let best = Infinity;
-    for(let i=0;i<9;i++){
-      if(b[i] === null){
-        b[i] = "X";
-        best = Math.min(best, minimax(b, depth+1, true));
-        b[i] = null;
-      }
-    }
-    return best;
-  }
+/* Confetti */
+const confetti=document.getElementById("confetti");
+const ctx2=confetti.getContext("2d");
+let pieces=[];
+function startConfetti(){
+  confetti.width=innerWidth;
+  confetti.height=innerHeight;
+  confetti.style.display="block";
+  pieces=Array.from({length:150},()=>({
+    x:Math.random()*confetti.width,
+    y:Math.random()*confetti.height-confetti.height,
+    r:Math.random()*6+4,
+    d:Math.random()*50
+  }));
+  setTimeout(()=>confetti.style.display="none",2000);
+  animate();
+}
+function animate(){
+  ctx2.clearRect(0,0,confetti.width,confetti.height);
+  ctx2.fillStyle="rgba(255,180,255,.9)";
+  pieces.forEach(p=>{
+    ctx2.beginPath();
+    ctx2.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx2.fill();
+    p.y+=3;
+    if(p.y>confetti.height)p.y=0;
+  });
+  requestAnimationFrame(animate);
 }
 
-/* galaxy particles */
+function closeReward(){
+  rewardModal.classList.remove("show");
+}
+
+/* Background stars */
 const c=document.getElementById("lux");
 const ctx=c.getContext("2d");
 function resize(){c.width=innerWidth;c.height=innerHeight}
 resize();onresize=resize;
-
-let stars=[];
-for(let i=0;i<140;i++){
-  stars.push({
-    x:Math.random()*c.width,
-    y:Math.random()*c.height,
-    r:Math.random()*1.4+.3,
-    s:Math.random()*0.25+.05
-  })
-}
-
+let stars=Array.from({length:120},()=>({
+  x:Math.random()*c.width,
+  y:Math.random()*c.height,
+  r:Math.random()*1.5
+}));
 function draw(){
   ctx.clearRect(0,0,c.width,c.height);
-  for(let s of stars){
+  ctx.fillStyle="rgba(200,160,255,.7)";
+  stars.forEach(s=>{
     ctx.beginPath();
-    ctx.fillStyle="rgba(200,160,255,.65)";
     ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
     ctx.fill();
-    s.y-=s.s;
-    if(s.y<0){
-      s.y=c.height;
-      s.x=Math.random()*c.width;
-    }
-  }
+  });
   requestAnimationFrame(draw);
 }
 draw();
 </script>
-
 </body>
 </html>
