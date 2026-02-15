@@ -192,7 +192,7 @@ button:hover{transform:scale(1.05)}
   font-size:14px;
 }
 
-/* ===== POPUP MODAL (reward image) ===== */
+/* ===== POPUP MODAL (reward video) ===== */
 .modal{
   position:fixed;
   inset:0;
@@ -216,19 +216,12 @@ button:hover{transform:scale(1.05)}
   position:relative;
   animation:pop .25s ease;
   text-align:center;
+  overflow:hidden; /* cinematic */
 }
 
 @keyframes pop{
   from{ transform:scale(.96); opacity:0; }
   to{ transform:scale(1); opacity:1; }
-}
-
-.modal-img{
-  width:100%;
-  border-radius:18px;
-  display:block;
-  box-shadow:0 0 35px rgba(160,120,255,.28);
-  background:#000;
 }
 
 .close-btn{
@@ -248,6 +241,7 @@ button:hover{transform:scale(1.05)}
   align-items:center;
   justify-content:center;
   transition:.2s;
+  z-index:2;
 }
 .close-btn:hover{ transform:scale(1.06); }
 
@@ -257,6 +251,23 @@ button:hover{transform:scale(1.05)}
   opacity:.95;
   line-height:1.5;
 }
+
+/* cinematic fade + zoom for video */
+.modal-video{
+  width:100%;
+  border-radius:18px;
+  display:block;
+  box-shadow:0 0 35px rgba(160,120,255,.28);
+  background:#000;
+
+  opacity:0;
+  transform:scale(1.03);
+  transition:opacity .5s ease, transform .9s ease;
+}
+.modal.show .modal-video{
+  opacity:1;
+  transform:scale(1);
+}
 </style>
 </head>
 
@@ -264,12 +275,17 @@ button:hover{transform:scale(1.05)}
 <canvas id="lux"></canvas>
 <canvas id="confetti"></canvas>
 
-<!-- Reward popup -->
+<!-- Reward popup (VIDEO) -->
 <div class="modal" id="rewardModal" aria-hidden="true">
   <div class="modal-card" role="dialog" aria-modal="true" aria-label="Reward">
     <button class="close-btn" type="button" onclick="closeReward()">×</button>
-    <img class="modal-img" id="rewardImg" src="image2.png" alt="image2">
-    <div class="modal-title">Totally worth it, I get to celebrate my valentine 🤍</div>
+
+    <!-- reward video: autoplay + sound + loop + controls -->
+    <video class="modal-video" id="rewardVideo" autoplay playsinline loop controls>
+      <source src="beauty.mp4" type="video/mp4">
+    </video>
+
+    <div class="modal-title">More than worth it — I get to celebrate my Valentine with this kind of beauty 🤍</div>
   </div>
 </div>
 
@@ -292,7 +308,6 @@ button:hover{transform:scale(1.05)}
 
     <p id="typing"></p>
 
-    <!-- changed text here -->
     <button id="playBtn" class="hide" onclick="showGame()">There is a secret 🤍</button>
 
     <!-- GAME -->
@@ -316,7 +331,7 @@ button:hover{transform:scale(1.05)}
     <source src="music.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Win SFX: taruh file win.mp3 sefolder -->
+  <!-- Win SFX -->
   <audio id="winSfx" preload="auto">
     <source src="win.mp3" type="audio/mpeg">
   </audio>
@@ -331,6 +346,7 @@ function openMsg(){
 
   const music = document.getElementById("music");
   music.play().catch(()=>{});
+  music.volume = 1; // ensure normal volume
 
   // reset typing + UI
   document.getElementById("typing").innerHTML = "";
@@ -386,22 +402,47 @@ function typeWriter(){
 
 /* ===== REWARD POPUP ===== */
 const rewardModal = document.getElementById("rewardModal");
-function openReward(){
-  rewardModal.classList.add("show");
-  rewardModal.setAttribute("aria-hidden", "false");
-}
-function closeReward(silent=false){
-  rewardModal.classList.remove("show");
-  rewardModal.setAttribute("aria-hidden", "true");
-  if(!silent) stopConfetti();
-}
-// close when clicking outside
+
+/* close when clicking outside */
 rewardModal.addEventListener("click", (e)=>{
   if(e.target === rewardModal) closeReward();
 });
 document.addEventListener("keydown", (e)=>{
   if(e.key === "Escape" && rewardModal.classList.contains("show")) closeReward();
 });
+
+/* ===== MUSIC DUCKING ===== */
+const bgm = document.getElementById("music");
+let bgmVolTarget = 1;
+let bgmFadeRAF = null;
+
+function setBgmVolumeSmooth(target=1, ms=400){
+  if(!bgm) return;
+  bgmVolTarget = Math.max(0, Math.min(1, target));
+
+  const start = (typeof bgm.volume === "number") ? bgm.volume : 1;
+  const delta = bgmVolTarget - start;
+  const t0 = performance.now();
+
+  if(bgmFadeRAF) cancelAnimationFrame(bgmFadeRAF);
+
+  const tick = (now)=>{
+    const t = Math.min(1, (now - t0) / ms);
+    const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+    bgm.volume = start + delta * eased;
+    if(t < 1) bgmFadeRAF = requestAnimationFrame(tick);
+  };
+
+  bgmFadeRAF = requestAnimationFrame(tick);
+}
+
+function duckBgm(){
+  setBgmVolumeSmooth(0.18, 450); // lower to 18%
+}
+
+function unduckBgm(){
+  setBgmVolumeSmooth(1.0, 550); // back to normal
+}
 
 /* ===== WIN SFX ===== */
 function playWinSfx(){
@@ -412,6 +453,47 @@ function playWinSfx(){
     const p = sfx.play();
     if(p && typeof p.catch === "function") p.catch(()=>{});
   }catch(e){}
+}
+
+/* ===== Reward open/close with VIDEO + ducking ===== */
+function openReward(){
+  rewardModal.classList.add("show");
+  rewardModal.setAttribute("aria-hidden", "false");
+
+  // duck bgm so video audio is clear
+  duckBgm();
+
+  const vid = document.getElementById("rewardVideo");
+  if(vid){
+    // ensure sound
+    vid.muted = false;
+    vid.volume = 1;
+
+    // restart
+    try{ vid.currentTime = 0; }catch(e){}
+
+    // play (best-effort)
+    const p = vid.play();
+    if(p && typeof p.catch === "function") p.catch(()=>{});
+  }
+}
+
+function closeReward(silent=false){
+  rewardModal.classList.remove("show");
+  rewardModal.setAttribute("aria-hidden", "true");
+
+  const vid = document.getElementById("rewardVideo");
+  if(vid){
+    try{
+      vid.pause();
+      vid.currentTime = 0;
+    }catch(e){}
+  }
+
+  // restore bgm
+  unduckBgm();
+
+  if(!silent) stopConfetti();
 }
 
 /* ===== TIC TAC TOE (EASY + PICK X/O) ===== */
@@ -502,7 +584,7 @@ function endGame(result){
   if(result === player){
     statusEl.textContent = "You win! 🤍";
     startConfetti(1800);
-    playWinSfx();      // <— meriah sound effect saat popup keluar
+    playWinSfx();
     openReward();
   } else if(result === robot){
     statusEl.textContent = "Robot wins 😭 try again.";
