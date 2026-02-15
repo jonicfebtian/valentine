@@ -411,17 +411,16 @@ document.addEventListener("keydown", (e)=>{
   if(e.key === "Escape" && rewardModal.classList.contains("show")) closeReward();
 });
 
-/* ===== MUSIC DUCKING ===== */
+/* ===== BGM FADE (pause/resume for popup) ===== */
 const bgm = document.getElementById("music");
-let bgmVolTarget = 1;
 let bgmFadeRAF = null;
 
-function setBgmVolumeSmooth(target=1, ms=400){
+function fadeBgmTo(target=1, ms=400, onDone=null){
   if(!bgm) return;
-  bgmVolTarget = Math.max(0, Math.min(1, target));
+  target = Math.max(0, Math.min(1, target));
 
   const start = (typeof bgm.volume === "number") ? bgm.volume : 1;
-  const delta = bgmVolTarget - start;
+  const delta = target - start;
   const t0 = performance.now();
 
   if(bgmFadeRAF) cancelAnimationFrame(bgmFadeRAF);
@@ -430,18 +429,35 @@ function setBgmVolumeSmooth(target=1, ms=400){
     const t = Math.min(1, (now - t0) / ms);
     const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
     bgm.volume = start + delta * eased;
-    if(t < 1) bgmFadeRAF = requestAnimationFrame(tick);
+
+    if(t < 1){
+      bgmFadeRAF = requestAnimationFrame(tick);
+    } else {
+      bgmFadeRAF = null;
+      if(typeof onDone === "function") onDone();
+    }
   };
 
   bgmFadeRAF = requestAnimationFrame(tick);
 }
 
-function duckBgm(){
-  setBgmVolumeSmooth(0.18, 450); // lower to 18%
+function fadeOutAndPause(ms=350){
+  if(!bgm) return;
+  if(bgm.paused) return;
+
+  fadeBgmTo(0, ms, ()=>{
+    try{ bgm.pause(); }catch(e){}
+  });
 }
 
-function unduckBgm(){
-  setBgmVolumeSmooth(1.0, 550); // back to normal
+function playAndFadeIn(ms=450, targetVol=1){
+  if(!bgm) return;
+
+  const p = bgm.play();
+  if(p && typeof p.catch === "function") p.catch(()=>{});
+
+  bgm.volume = 0;
+  fadeBgmTo(targetVol, ms);
 }
 
 /* ===== WIN SFX ===== */
@@ -455,13 +471,13 @@ function playWinSfx(){
   }catch(e){}
 }
 
-/* ===== Reward open/close with VIDEO + ducking ===== */
+/* ===== Reward open/close with VIDEO + bgm fade pause/resume ===== */
 function openReward(){
   rewardModal.classList.add("show");
   rewardModal.setAttribute("aria-hidden", "false");
 
-  // duck bgm so video audio is clear
-  duckBgm();
+  // ✅ fade out bgm lalu pause
+  fadeOutAndPause(380);
 
   const vid = document.getElementById("rewardVideo");
   if(vid){
@@ -490,8 +506,8 @@ function closeReward(silent=false){
     }catch(e){}
   }
 
-  // restore bgm
-  unduckBgm();
+  // ✅ resume bgm dengan fade in
+  playAndFadeIn(520, 1);
 
   if(!silent) stopConfetti();
 }
@@ -780,7 +796,12 @@ const c=document.getElementById("lux");
 const ctx=c.getContext("2d");
 function resizeLux(){c.width=innerWidth;c.height=innerHeight}
 resizeLux();
-onresize=()=>{resizeLux(); sizeConfetti();};
+
+/* ✅ improvement: do NOT overwrite window.onresize; use listeners */
+addEventListener("resize", ()=>{
+  resizeLux();
+  sizeConfetti();
+});
 
 let stars=[];
 for(let i=0;i<140;i++){
